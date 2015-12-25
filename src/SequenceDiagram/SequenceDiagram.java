@@ -102,22 +102,14 @@ public class SequenceDiagram extends JFrame {
 		scrollPane.setViewportView(textArea);
 
 		JButton button = new JButton("New button");     //「シーケンス図作成」
-		button.setAction(action_1);
 		button.setBounds(121, 33, 177, 21);
+		button.setAction(action_1);
 		button.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				SeqPanel seqpanel = new SeqPanel();
-
-				seqpanel.setVisible(true);
-				contentPane.setVisible(false);
-
+				Creater creater = new Creater(e);
 			}
 		});
 		getContentPane().add(button);
-		//this.add(button);
-		//this.setTitle("シーケンス図作成");
-		//this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		//this.setSize(400, 200);
 	}
 
 	private class SwingAction extends AbstractAction {
@@ -135,14 +127,6 @@ public class SequenceDiagram extends JFrame {
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 		public void actionPerformed(ActionEvent e) {
-
 		}
 	}
-
-	/*public void PanelChange(JPanel jp, String str){
-		String name = jp.getName();
-		if(name == PanelNames[0]){
-			mp = (SequenceDiagram)jp;
-		}
-	}*/
 }

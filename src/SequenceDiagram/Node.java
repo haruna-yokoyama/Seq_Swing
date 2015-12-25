@@ -1,14 +1,15 @@
 package SequenceDiagram;
 
+import java.util.List;
 
 public class Node {
-	private String name;    //ノード名
+	private List<List<String>> name;    //ノード名
 
-	public String getName() {
+	public List<List<String>> getName() {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(List<List<String>> name) {
 		this.name = name;
 	}
 }
