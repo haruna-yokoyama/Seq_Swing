@@ -1,9 +1,8 @@
 package SequenceDiagram;
 
-import java.util.List;
 
 public class Connector {
-	private List<List<String>> name;
+	private String name;
 	private EndPoint from;
 	private EndPoint to;
 	private String ConnectorType;
@@ -14,10 +13,10 @@ public class Connector {
 	public void setConnectorType(String connectorType) {
 		this.ConnectorType = connectorType;
 	}
-	public List<List<String>> getName() {
+	public String getName() {
 		return name;
 	}
-	public void setName(List<List<String>> name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 	public EndPoint getFrom() {
