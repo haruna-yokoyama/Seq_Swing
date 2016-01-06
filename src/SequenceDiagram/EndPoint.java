@@ -1,6 +1,5 @@
 package SequenceDiagram;
 
-
 public class EndPoint {
 
 	private Node node;

@@ -19,4 +19,9 @@ public class Node {
 		// TODO 自動生成されたメソッド・スタブ
 		this.sub_ret = sub_ret;
 	}
+
+	//public void add(Node tmp) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	//}
 }
