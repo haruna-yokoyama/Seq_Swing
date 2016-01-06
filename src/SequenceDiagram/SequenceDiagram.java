@@ -106,7 +106,8 @@ public class SequenceDiagram extends JFrame {
 		button.setAction(action_1);
 		button.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				Creater creater = new Creater(e);
+				//Creater creater = new Creater(e);
+				readCSV readcsv = new readCSV(e);
 			}
 		});
 		getContentPane().add(button);
