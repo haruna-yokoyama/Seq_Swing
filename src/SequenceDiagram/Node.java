@@ -1,9 +1,10 @@
 package SequenceDiagram;
 
 
+
 public class Node {
-	//private List<List<String>> name; //ノード名
-	private String name;
+	//private List<String> name; //ノード名
+	private String sub_ret;
 
 
 	  /*public String getName() { return name; }
@@ -11,11 +12,11 @@ public class Node {
 	  public void setName(String name) { this.name = name; }
 */
 	public String getName() {
-		return name;
+		return sub_ret;
 	}
 
-	public void setName(String name) {
+	public void setName(String sub_ret) {
 		// TODO 自動生成されたメソッド・スタブ
-		this.name = name;
+		this.sub_ret = sub_ret;
 	}
 }
