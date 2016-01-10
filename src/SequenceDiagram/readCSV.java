@@ -99,9 +99,10 @@ public class readCSV {
 
 	public void creater(List<List<String>> ret) { // シーケンス図を作成するメソッド
 		String className;
-		String methodName;
+		String methodName = null;
 		int x = ret.size();
 		int y = 0;
+		int k;
 		List<Node> nodes = new ArrayList<Node>();
 		// Map<Node, HashMap<Connector, EndPoint>> nodesMap = new HashMap<>();
 		List<Connector> connectorList = new ArrayList<Connector>();
@@ -128,18 +129,18 @@ public class readCSV {
 		}
 		for (int i = 1; i < x; i++) {
 			for (int j = 0; j < y; j++) {
-				className = ret.get(i).get(j);
+				className = ret.get(i).get(0);
 				System.out.println("要素：" + ret.get(i).get(j));
 				try {
-					for (int k = 0; k < ret.size(); k++) { // Nodeのfor文
-						Node tmp = new Node();
-						tmp.setName(className);
-						nodes.add(tmp);
 
-						// for (int l = 0; l < nodes.size(); l++)
-						// {//Connectorのfor文
-						methodName = ret.get(i).get(j + 1);
-						connector1 = new Connector();
+					Node tmp = new Node();
+					tmp.setName(className);
+					nodes.add(tmp);
+					for (k = 0; k < i; k++) { // Nodeのfor文
+						// for (int l = 0; l < nodes.size(); l++) {//
+						// Connectorのfor文
+						methodName = ret.get(i).get(2);
+						connector1 = new Connector();// methodが始まったとき用のconnector
 						connector1.setName(methodName);
 						// connectorList.add(connector);
 						// for (int m = 0; m < connectorList.size(); m++)
@@ -148,14 +149,17 @@ public class readCSV {
 						endPoint1From.setParentNode(nodes.get(k));
 						// endPoint.add(endPoint1From);
 
-						// for (int n = 0; n < endPoint.size(); n++)
-						// {//endPointToのfor文
+						// for (int n = 0; n < endPoint.size();
+						// n++){//endPointToのfor文
 						endPoint1To = new EndPoint();
 						endPoint1To.setParentNode(nodes.get(k + 1));
 
 						connector1.setFrom(endPoint1From);
 						connector1.setTo(endPoint1To);
+					}
+					for (k = 0; k < i; k++) {
 
+						connector2 = new Connector();// return用のconnector
 						connector2.setName("return : " + methodName);
 						endPoint2From = new EndPoint();
 						endPoint2From.setParentNode(nodes.get(k + 1));
@@ -170,16 +174,15 @@ public class readCSV {
 						connector2.setTo(endPoint2To);
 						// connectorList.add(connector);
 						// }
-						connectorList.add(connector1);
-						connectorList.add(connector2);
-
+						// }
 					}
-					// endPoint.add(endPoint1To);
-					// endPoint.add(endPoint1From);
+					connectorList.add(connector1);
+					connectorList.add(connector2);
 				} catch (IndexOutOfBoundsException e) {
 					className = null;
 					System.out.println("error");
 				}
+				j++;
 			}
 		}
 		// connectorList.add(connector);
