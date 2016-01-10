@@ -19,8 +19,6 @@ public class readCSV {
 	private Integer num;
 	private String className;
 
-	// EventThread eventThred = new EventThread(null, null, null, null);
-
 	// コンストラクタ
 	public readCSV(String fileName, int num) {
 		this.fileName = fileName;
@@ -45,7 +43,6 @@ public class readCSV {
 		fileName = "C:\\Users\\cs12097\\Desktop\\" + "test.csv";
 		File csv = new File(fileName);
 		BufferedReader br = null;
-		// String word = "abc";
 
 		try {
 			br = new BufferedReader(new FileReader(csv)); // ファイルオープン
@@ -95,14 +92,13 @@ public class readCSV {
 		return null;
 	}
 
-	// public class Creater {
-
 	public void creater(List<List<String>> ret) { // シーケンス図を作成するメソッド
 		String className;
 		String methodName = null;
 		int x = ret.size();
 		int y = 0;
-		int k;
+		int k = 1;
+
 		List<Node> nodes = new ArrayList<Node>();
 		// Map<Node, HashMap<Connector, EndPoint>> nodesMap = new HashMap<>();
 		List<Connector> connectorList = new ArrayList<Connector>();
@@ -136,109 +132,46 @@ public class readCSV {
 					Node tmp = new Node();
 					tmp.setName(className);
 					nodes.add(tmp);
-					for (k = 0; k < i; k++) { // Nodeのfor文
+					for (k = 0; k < i; k++) { // connectorのfor文
 						// for (int l = 0; l < nodes.size(); l++) {//
-						// Connectorのfor文
 						methodName = ret.get(i).get(2);
 						connector1 = new Connector();// methodが始まったとき用のconnector
 						connector1.setName(methodName);
-						// connectorList.add(connector);
-						// for (int m = 0; m < connectorList.size(); m++)
-						// {//EndPointfromのfor文
+
 						endPoint1From = new EndPoint();
 						endPoint1From.setParentNode(nodes.get(k));
-						// endPoint.add(endPoint1From);
 
-						// for (int n = 0; n < endPoint.size();
-						// n++){//endPointToのfor文
 						endPoint1To = new EndPoint();
 						endPoint1To.setParentNode(nodes.get(k + 1));
 
 						connector1.setFrom(endPoint1From);
 						connector1.setTo(endPoint1To);
-					}
-					for (k = 0; k < i; k++) {
 
+						//for (int l = 0; l < i; l++) {
 						connector2 = new Connector();// return用のconnector
 						connector2.setName("return : " + methodName);
 						endPoint2From = new EndPoint();
-						endPoint2From.setParentNode(nodes.get(k + 1));
-						// }
+						endPoint2From.setParentNode(nodes.get(k+1));
 
 						endPoint2To = new EndPoint();
 						endPoint2To.setParentNode(nodes.get(k));
-						// }
-						// connector = new Connector();
 
 						connector2.setFrom(endPoint2From);
 						connector2.setTo(endPoint2To);
-						// connectorList.add(connector);
-						// }
-						// }
+						//}
 					}
-					connectorList.add(connector1);
-					connectorList.add(connector2);
+
 				} catch (IndexOutOfBoundsException e) {
 					className = null;
 					System.out.println("error");
 				}
+
 				j++;
 			}
+			connectorList.add(connector1);
+			connectorList.add(connector2);
 		}
-		// connectorList.add(connector);
 
-		// Node node3 = new Node(); node3.setName("Class3");
-
-		/*
-		 * Connector connector1 = new Connector();
-		 * connector1.setName("methodName");
-		 *
-		 * EndPoint endPoint1From = new EndPoint();
-		 * endPoint1From.setParentNode(nodes.get(index));
-		 *
-		 * EndPoint endPoint1To = new EndPoint();
-		 * endPoint1To.setParentNode(nodes.get(index));
-		 *
-		 * connector1.setFrom(endPoint1From); connector1.setTo(endPoint1To);
-		 */
-		/*
-		 * Connector connector2 = new Connector();
-		 * connector2.setName("method2");
-		 *
-		 * EndPoint endPoint2From = new EndPoint();
-		 * endPoint2From.setParentNode(node2);
-		 *
-		 * EndPoint endPoint2To = new EndPoint();
-		 * endPoint2To.setParentNode(node3);
-		 *
-		 * connector2.setFrom(endPoint2From); connector2.setTo(endPoint2To);
-		 *
-		 * Connector connector3 = new Connector();
-		 * connector3.setName("return2");
-		 *
-		 * EndPoint endPoint3From = new EndPoint();
-		 * endPoint3From.setParentNode(node3);
-		 *
-		 * EndPoint endPoint3To = new EndPoint();
-		 * endPoint3To.setParentNode(node2);
-		 *
-		 * connector3.setFrom(endPoint3From); connector3.setTo(endPoint3To);
-		 */
-		/*
-		 * Connector connector4 = new Connector();
-		 * connector4.setName("return1");
-		 *
-		 * EndPoint endPoint4From = new EndPoint();
-		 * endPoint4From.setParentNode((Node) nodes);
-		 *
-		 * EndPoint endPoint4To = new EndPoint();
-		 * endPoint4To.setParentNode((Node) nodes);
-		 *
-		 * connector4.setFrom(endPoint4From); connector4.setTo(endPoint4To);
-		 */
-		// List<Connector> connectorList = new ArrayList<Connector>();
-		// connectorList.add(connector1);
-		// connectorList.add(connector2);
 
 		writeSeq writeseq = new writeSeq(connectorList);
 		mxGraphComponent graph = writeseq.createGraphComponent();
@@ -251,22 +184,20 @@ public class readCSV {
 	}
 
 	// クラス
-	public void Data_className() {
+	// public void Data_className() {
+	// List<String> sub_csv = new ArrayList<String>();
+	// System.out.println("aaaaaaaaaa");
+	// List<String> data = new ArrayList<String>();
+	// csv.add(data);
+	// System.out.println("bbbbbbbbbbbbb");
 
-		// List<String> sub_csv = new ArrayList<String>();
-		// System.out.println("aaaaaaaaaa");
-		// List<String> data = new ArrayList<String>();
-		// csv.add(data);
-		// System.out.println("bbbbbbbbbbbbb");
-
-		// for (List<String> str : csv) {
-		// System.out.println(str);
-		// }
-		/*
-		 * List<List<String>> list = csv.;
-		 */
-		// return csv;
-		// }
-
-	}
+	// for (List<String> str : csv) {
+	// System.out.println(str);
+	// }
+	/*
+	 * List<List<String>> list = csv.;
+	 */
+	// return csv;
+	// }
+	// }
 }
