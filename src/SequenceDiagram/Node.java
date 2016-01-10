@@ -4,7 +4,7 @@ package SequenceDiagram;
 
 public class Node {
 	//private List<String> name; //ノード名
-	private String sub_ret;
+	private String name;
 
 
 	  /*public String getName() { return name; }
@@ -12,12 +12,12 @@ public class Node {
 	  public void setName(String name) { this.name = name; }
 */
 	public String getName() {
-		return sub_ret;
+		return name;
 	}
 
-	public void setName(String sub_ret) {
+	public void setName(String name) {
 		// TODO 自動生成されたメソッド・スタブ
-		this.sub_ret = sub_ret;
+		this.name = name;
 	}
 
 	//public void add(Node tmp) {
