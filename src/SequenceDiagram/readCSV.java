@@ -103,19 +103,21 @@ public class readCSV {
 		int x = ret.size();
 		int y = 0;
 		List<Node> nodes = new ArrayList<Node>();
-		//Map<Node, HashMap<Connector, EndPoint>> nodesMap = new HashMap<>();
+		// Map<Node, HashMap<Connector, EndPoint>> nodesMap = new HashMap<>();
 		List<Connector> connectorList = new ArrayList<Connector>();
 		List<EndPoint> endPoint = new ArrayList<EndPoint>();
 
 		EndPoint endPoint1From = null;
+		EndPoint endPoint2From = null;
 		EndPoint endPoint1To = null;
-		//Connector connector= null;
+		EndPoint endPoint2To = null;
+		// Connector connector= null;
 		// Connector connector = new Connector();
 
 		Connector connector1 = new Connector();
-		//Connector connector2 = new Connector();
-		//Connector connector3 = new Connector();
-		//Connector connector4 = new Connector();
+		Connector connector2 = new Connector();
+		// Connector connector3 = new Connector();
+		// Connector connector4 = new Connector();
 		// List<Connector> connectorList = new ArrayList<Connector>();
 		// Connector connector;
 
@@ -134,48 +136,53 @@ public class readCSV {
 						tmp.setName(className);
 						nodes.add(tmp);
 
-						//for (int l = 0; l < nodes.size(); l++) {//Connectorのfor文
-							methodName = ret.get(i+1).get(j + 1);
-							connector1 = new Connector();
-							connector1.setName(methodName);
-							//connectorList.add(connector);
-							//for (int m = 0; m < connectorList.size(); m++) {//EndPointfromのfor文
-								endPoint1From = new EndPoint();
-								endPoint1From.setParentNode(nodes.get(k));
-								// endPoint.add(endPoint1From);
+						// for (int l = 0; l < nodes.size(); l++)
+						// {//Connectorのfor文
+						methodName = ret.get(i).get(j + 1);
+						connector1 = new Connector();
+						connector1.setName(methodName);
+						// connectorList.add(connector);
+						// for (int m = 0; m < connectorList.size(); m++)
+						// {//EndPointfromのfor文
+						endPoint1From = new EndPoint();
+						endPoint1From.setParentNode(nodes.get(k));
+						// endPoint.add(endPoint1From);
 
-								//for (int n = 0; n < endPoint.size(); n++) {//endPointToのfor文
-									endPoint1To = new EndPoint();
-									endPoint1To.setParentNode(nodes.get(k + 1));
+						// for (int n = 0; n < endPoint.size(); n++)
+						// {//endPointToのfor文
+						endPoint1To = new EndPoint();
+						endPoint1To.setParentNode(nodes.get(k + 1));
 
-									connector1.setFrom(endPoint1From);
-									connector1.setTo(endPoint1To);
+						connector1.setFrom(endPoint1From);
+						connector1.setTo(endPoint1To);
 
-									endPoint1From = new EndPoint();
-									endPoint1From.setParentNode(nodes.get(k+1));
-								//}
+						connector2.setName("return : " + methodName);
+						endPoint2From = new EndPoint();
+						endPoint2From.setParentNode(nodes.get(k + 1));
+						// }
 
-								endPoint1To = new EndPoint();
-							endPoint1To.setParentNode(nodes.get(k));
-							//}
-							//connector = new Connector();
-							//connector.setName("return : " + methodName);
-							connector1.setFrom(endPoint1From);
-							connector1.setTo(endPoint1To);
-							//connectorList.add(connector);
-						//}
+						endPoint2To = new EndPoint();
+						endPoint2To.setParentNode(nodes.get(k));
+						// }
+						// connector = new Connector();
+
+						connector2.setFrom(endPoint2From);
+						connector2.setTo(endPoint2To);
+						// connectorList.add(connector);
+						// }
 						connectorList.add(connector1);
+						connectorList.add(connector2);
 
 					}
-					//endPoint.add(endPoint1To);
-					//endPoint.add(endPoint1From);
+					// endPoint.add(endPoint1To);
+					// endPoint.add(endPoint1From);
 				} catch (IndexOutOfBoundsException e) {
 					className = null;
 					System.out.println("error");
 				}
 			}
 		}
-		//connectorList.add(connector);
+		// connectorList.add(connector);
 
 		// Node node3 = new Node(); node3.setName("Class3");
 
