@@ -71,6 +71,7 @@ public class readCSV {
 				}
 				ret.add(tmpList); // 返却用リストに1行データを格納
 				System.out.println(tmpList);
+
 				if (num != 0 && idx > num) { // numを超えたら読み込み終了。numが0のときは全量読む
 					break;
 				}
@@ -97,22 +98,19 @@ public class readCSV {
 		String methodName = null;
 		int x = ret.size();
 		int y = 0;
-		int k = 1;
 
 		List<Node> nodes = new ArrayList<Node>();
 		// Map<Node, HashMap<Connector, EndPoint>> nodesMap = new HashMap<>();
 		List<Connector> connectorList = new ArrayList<Connector>();
 		List<EndPoint> endPoint = new ArrayList<EndPoint>();
 
-		EndPoint endPoint1From = null;
-		EndPoint endPoint2From = null;
-		EndPoint endPoint1To = null;
-		EndPoint endPoint2To = null;
-		// Connector connector= null;
-		// Connector connector = new Connector();
+		EndPoint endPoint1From = null;  //method開始の位置
+		EndPoint endPoint2From = null;  //return発生の位置
+		EndPoint endPoint1To = null;    //endPoint1Fromの行き先
+		EndPoint endPoint2To = null;    //endPoint2Fromの行き先
 
-		Connector connector1 = new Connector();
-		Connector connector2 = new Connector();
+		Connector connector1 = new Connector();    //method開始のときのconnector
+		Connector connector2 = new Connector();    //method終了のときのconnector
 		// Connector connector3 = new Connector();
 		// Connector connector4 = new Connector();
 		// List<Connector> connectorList = new ArrayList<Connector>();
@@ -128,11 +126,10 @@ public class readCSV {
 				className = ret.get(i).get(0);
 				System.out.println("要素：" + ret.get(i).get(j));
 				try {
-
 					Node tmp = new Node();
 					tmp.setName(className);
 					nodes.add(tmp);
-					for (k = 0; k < i; k++) { // connectorのfor文
+					for (int k = 0; k < i; k++) { // connectorのfor文
 						// for (int l = 0; l < nodes.size(); l++) {//
 						methodName = ret.get(i).get(2);
 						connector1 = new Connector();// methodが始まったとき用のconnector
@@ -171,7 +168,7 @@ public class readCSV {
 
 		for (int i = x - 1; i > 0; i--) {
 			connector2 = new Connector();// return用のconnector
-			// methodName = ret.get(i).get(1);
+			methodName = ret.get(i).get(2);
 			connector2.setName("return : " + methodName);
 			endPoint2From = new EndPoint();
 			endPoint2From.setParentNode(nodes.get(i));
