@@ -147,31 +147,43 @@ public class readCSV {
 						connector1.setFrom(endPoint1From);
 						connector1.setTo(endPoint1To);
 
-						//for (int l = 0; l < i; l++) {
-						connector2 = new Connector();// return用のconnector
-						connector2.setName("return : " + methodName);
-						endPoint2From = new EndPoint();
-						endPoint2From.setParentNode(nodes.get(k+1));
-
-						endPoint2To = new EndPoint();
-						endPoint2To.setParentNode(nodes.get(k));
-
-						connector2.setFrom(endPoint2From);
-						connector2.setTo(endPoint2To);
-						//}
+						/* for (int l = 0; l < i; l++) {
+						 * connector2 = new Connector();          // return用のconnector
+						 * connector2.setName("return : " + methodName);
+						 * endPoint2From = new EndPoint();
+						 * endPoint2From.setParentNode(nodes.get(k+1));
+						 *
+						 * endPoint2To = new EndPoint();
+						 * endPoint2To.setParentNode(nodes.get(k));
+						 *
+						 * connector2.setFrom(endPoint2From);
+						 * connector2.setTo(endPoint2To);
+						  }*/
 					}
-
 				} catch (IndexOutOfBoundsException e) {
 					className = null;
 					System.out.println("error");
 				}
-
 				j++;
 			}
 			connectorList.add(connector1);
-			connectorList.add(connector2);
 		}
 
+		for (int i = x - 1; i > 0; i--) {
+			connector2 = new Connector();// return用のconnector
+			// methodName = ret.get(i).get(1);
+			connector2.setName("return : " + methodName);
+			endPoint2From = new EndPoint();
+			endPoint2From.setParentNode(nodes.get(i));
+
+			endPoint2To = new EndPoint();
+			endPoint2To.setParentNode(nodes.get(i - 1));
+
+			connector2.setFrom(endPoint2From);
+			connector2.setTo(endPoint2To);
+			connectorList.add(connector2);
+		}
+		// connectorList.add(connector2);
 
 		writeSeq writeseq = new writeSeq(connectorList);
 		mxGraphComponent graph = writeseq.createGraphComponent();
