@@ -3,6 +3,7 @@
 	<name>Seq_Swing</name>
 	<comment></comment>
 	<projects>
+		<project>trace1</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

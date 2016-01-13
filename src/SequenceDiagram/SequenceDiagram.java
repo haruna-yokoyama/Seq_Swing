@@ -16,6 +16,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
+import com.sun.jdi.VirtualMachine;
+import com.sun.tools.example.trace.Trace;
+
 public class SequenceDiagram extends JFrame {
 
 	private JPanel contentPane;
@@ -34,10 +37,17 @@ public class SequenceDiagram extends JFrame {
 
 	static String str;
 
+	static String[] argss;
+	//static PrintWriter methodName;
+
+	 private VirtualMachine vm;
+	 private String[] excludes = {"java.*", "javax.*", "sun.*", "com.sun.*"};
+
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		argss=args;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -106,7 +116,18 @@ public class SequenceDiagram extends JFrame {
 		button.setAction(action_1);
 		button.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				//Creater creater = new Creater(e);
+				String[] tracePrograms= {"HelloWorld"};
+				new Trace(tracePrograms);
+				//Trace.generateTrace(methodName);
+				//Trace.main(tracePrograms);
+				//EventThread eventThread = new EventThread(vm, writer, excludes, options);
+				//MethodName methodName = new MethodName();
+				//DeclaringType decType = new DeclaringType();
+				//methodName.getMethodName();
+				//decType.getDeclaringType();
+				//System.out.println("trace結果" + methodName + " , " + decType);
+
+				inputList inputlist = new inputList(e);
 				readCSV readcsv = new readCSV(e);
 			}
 		});
@@ -115,7 +136,7 @@ public class SequenceDiagram extends JFrame {
 
 	private class SwingAction extends AbstractAction {
 		public SwingAction() {
-			putValue(NAME, "開く");
+			putValue(NAME,"開く");
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 		public void actionPerformed(ActionEvent e) {

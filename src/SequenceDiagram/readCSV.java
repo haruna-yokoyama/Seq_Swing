@@ -31,6 +31,7 @@ public class readCSV {
 		readCSV reader = new readCSV("C:\\Users\\cs12097\\Desktop\\"
 				+ "test.csv", 0);
 		List<List<String>> csv = reader.read();
+
 	}
 
 	public List<List<String>> read() { // csvファイルを読み込むメソッド
@@ -94,6 +95,7 @@ public class readCSV {
 	}
 
 	public void creater(List<List<String>> ret) { // シーケンス図を作成するメソッド
+
 		String className;
 		String methodName = null;
 		int x = ret.size();
@@ -104,13 +106,13 @@ public class readCSV {
 		List<Connector> connectorList = new ArrayList<Connector>();
 		List<EndPoint> endPoint = new ArrayList<EndPoint>();
 
-		EndPoint endPoint1From = null;  //method開始の位置
-		EndPoint endPoint2From = null;  //return発生の位置
-		EndPoint endPoint1To = null;    //endPoint1Fromの行き先
-		EndPoint endPoint2To = null;    //endPoint2Fromの行き先
+		EndPoint endPoint1From = null; // method開始の位置
+		EndPoint endPoint2From = null; // return発生の位置
+		EndPoint endPoint1To = null; // endPoint1Fromの行き先
+		EndPoint endPoint2To = null; // endPoint2Fromの行き先
 
-		Connector connector1 = new Connector();    //method開始のときのconnector
-		Connector connector2 = new Connector();    //method終了のときのconnector
+		Connector connector1 = new Connector(); // method開始のときのconnector
+		Connector connector2 = new Connector(); // method終了のときのconnector
 		// Connector connector3 = new Connector();
 		// Connector connector4 = new Connector();
 		// List<Connector> connectorList = new ArrayList<Connector>();
@@ -144,8 +146,9 @@ public class readCSV {
 						connector1.setFrom(endPoint1From);
 						connector1.setTo(endPoint1To);
 
-						/* for (int l = 0; l < i; l++) {
-						 * connector2 = new Connector();          // return用のconnector
+						/*
+						 * for (int l = 0; l < i; l++) { connector2 = new
+						 * Connector(); // return用のconnector
 						 * connector2.setName("return : " + methodName);
 						 * endPoint2From = new EndPoint();
 						 * endPoint2From.setParentNode(nodes.get(k+1));
@@ -154,12 +157,12 @@ public class readCSV {
 						 * endPoint2To.setParentNode(nodes.get(k));
 						 *
 						 * connector2.setFrom(endPoint2From);
-						 * connector2.setTo(endPoint2To);
-						  }*/
+						 * connector2.setTo(endPoint2To); }
+						 */
 					}
 				} catch (IndexOutOfBoundsException e) {
 					className = null;
-					System.out.println("error");
+					// System.out.println("error");
 				}
 				j++;
 			}
@@ -191,22 +194,8 @@ public class readCSV {
 		frame.pack();
 		frame.setVisible(true);
 	}
-
-	// クラス
-	// public void Data_className() {
-	// List<String> sub_csv = new ArrayList<String>();
-	// System.out.println("aaaaaaaaaa");
-	// List<String> data = new ArrayList<String>();
-	// csv.add(data);
-	// System.out.println("bbbbbbbbbbbbb");
-
-	// for (List<String> str : csv) {
-	// System.out.println(str);
-	// }
-	/*
-	 * List<List<String>> list = csv.;
-	 */
-	// return csv;
-	// }
-	// }
 }
+
+
+
+
