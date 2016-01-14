@@ -10,12 +10,22 @@ import javax.swing.JScrollPane;
 import com.mxgraph.swing.mxGraphComponent;
 
 public class Creater {
+	
+	public String declaringType;
+	public String methodName;
+	public String returnType;
+	public String argumentType;
+	public String fieldName;
+	public String valueName;
+	
 
 	public Creater(ActionEvent e) {
-		String className = null;
 
+		declaringType = null;
 		
-		Node node1 = new Node(); node1.setName(className);
+		Node node1 = new Node(); 
+		node1.setName(declaringType);
+		
 		
 
 		//className = Data_className();

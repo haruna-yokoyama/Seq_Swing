@@ -20,5 +20,4 @@ public class EndPoint {
 	public void setParentNode(Node parentNode) {
 		this.ParentNode = parentNode;
 	}
-	//getter/setterは省略
 }

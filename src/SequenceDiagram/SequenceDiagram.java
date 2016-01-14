@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -16,7 +17,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
-import com.sun.jdi.VirtualMachine;
+import com.sun.jdi.Field;
+import com.sun.jdi.Value;
 import com.sun.tools.example.trace.Trace;
 
 public class SequenceDiagram extends JFrame {
@@ -30,6 +32,13 @@ public class SequenceDiagram extends JFrame {
 	private JTextArea textArea;
 	private final Action action_1 = new SwingAction_1();
 
+	private String declaringType;
+	private String methodName;
+	private String returnType;
+	private List<String> argumentType;
+	private Field fieldName;
+	private Value valueName;
+
 
 	//public String[] PanelNames = {"mp", "SeqPanel"};
 	//SequenceDiagram mp = new SequenceDiagram(this,PanelNames[0]);
@@ -38,10 +47,6 @@ public class SequenceDiagram extends JFrame {
 	static String str;
 
 	static String[] argss;
-	//static PrintWriter methodName;
-
-	 private VirtualMachine vm;
-	 private String[] excludes = {"java.*", "javax.*", "sun.*", "com.sun.*"};
 
 	/**
 	 * Launch the application.
@@ -117,7 +122,16 @@ public class SequenceDiagram extends JFrame {
 		button.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				String[] tracePrograms= {"HelloWorld"};    //trace.javaからトレース情報を持ってくる
-				new Trace(tracePrograms);
+				Trace trace = new Trace(tracePrograms);
+
+				ResultTrace resultTrace = new ResultTrace();
+				
+				declaringType = setDeclaringType(trace.getDeclaringType());
+				methodName = setMethodName(trace.getMethodName());
+				returnType = setReturnType(trace.getReturnType());
+				argumentType = setArgumentType(trace.getArgumentType());
+				fieldName = setFieldName(trace.getFieldName());
+				valueName = setValueName(trace.getValueName());
 
 				Creater creater = new Creater(e);          //シーケンス図作成
 
@@ -127,6 +141,58 @@ public class SequenceDiagram extends JFrame {
 		});
 		getContentPane().add(button);
 	}
+
+	//getterとsetter
+
+	public String getDeclaringType() {
+		return declaringType;
+	}
+
+	public String setDeclaringType(String declaringType) {
+		return this.declaringType = declaringType;
+	}
+
+	public String getMethodName() {
+		return methodName;
+	}
+
+	public String setMethodName(String methodName) {
+		return this.methodName = methodName;
+	}
+
+	public String getReturnType() {
+		return returnType;
+	}
+
+	public String setReturnType(String returnType) {
+		return this.returnType = returnType;
+	}
+
+	public List<String> getArgumentType() {
+		return argumentType;
+	}
+
+	public List<String> setArgumentType(List<String> argumentType) {
+		return this.argumentType = argumentType;
+	}
+
+	public Field getFieldName() {
+		return fieldName;
+	}
+
+	public Field setFieldName(Field fieldName) {
+		return this.fieldName = fieldName;
+	}
+
+	public Value getValueName() {
+		return valueName;
+	}
+
+	public Value setValueName(Value valueName) {
+		return this.valueName = valueName;
+	}
+
+	//getter setter 終わり
 
 	private class SwingAction extends AbstractAction {
 		public SwingAction() {

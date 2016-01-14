@@ -2,7 +2,7 @@ package SequenceDiagram;
 
 
 public class Connector {
-	private String name;
+	private String name;  // =methodName
 	private EndPoint from;
 	private EndPoint to;
 	private String ConnectorType;
