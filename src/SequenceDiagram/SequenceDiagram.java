@@ -125,13 +125,12 @@ public class SequenceDiagram extends JFrame {
 				Trace trace = new Trace(tracePrograms);
 
 				ResultTrace resultTrace = new ResultTrace();
-				
-				declaringType = setDeclaringType(trace.getDeclaringType());
-				methodName = setMethodName(trace.getMethodName());
-				returnType = setReturnType(trace.getReturnType());
-				argumentType = setArgumentType(trace.getArgumentType());
-				fieldName = setFieldName(trace.getFieldName());
-				valueName = setValueName(trace.getValueName());
+				declaringType = resultTrace.setDeclaringType(trace.getDeclaringType());
+				methodName = resultTrace.setMethodName(trace.getMethodName());
+				returnType = resultTrace.setReturnType(trace.getReturnType());
+				argumentType = resultTrace.setArgumentType(trace.getArgumentType());
+				fieldName = resultTrace.setFieldName(trace.getFieldName());
+				valueName = resultTrace.setValueName(trace.getValueName());
 
 				Creater creater = new Creater(e);          //シーケンス図作成
 
@@ -141,58 +140,6 @@ public class SequenceDiagram extends JFrame {
 		});
 		getContentPane().add(button);
 	}
-
-	//getterとsetter
-
-	public String getDeclaringType() {
-		return declaringType;
-	}
-
-	public String setDeclaringType(String declaringType) {
-		return this.declaringType = declaringType;
-	}
-
-	public String getMethodName() {
-		return methodName;
-	}
-
-	public String setMethodName(String methodName) {
-		return this.methodName = methodName;
-	}
-
-	public String getReturnType() {
-		return returnType;
-	}
-
-	public String setReturnType(String returnType) {
-		return this.returnType = returnType;
-	}
-
-	public List<String> getArgumentType() {
-		return argumentType;
-	}
-
-	public List<String> setArgumentType(List<String> argumentType) {
-		return this.argumentType = argumentType;
-	}
-
-	public Field getFieldName() {
-		return fieldName;
-	}
-
-	public Field setFieldName(Field fieldName) {
-		return this.fieldName = fieldName;
-	}
-
-	public Value getValueName() {
-		return valueName;
-	}
-
-	public Value setValueName(Value valueName) {
-		return this.valueName = valueName;
-	}
-
-	//getter setter 終わり
 
 	private class SwingAction extends AbstractAction {
 		public SwingAction() {

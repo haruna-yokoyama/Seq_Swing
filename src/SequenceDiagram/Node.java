@@ -1,7 +1,7 @@
 package SequenceDiagram;
 
 public class Node {
-	private String name;
+	private String name;  //nodeに入る名前
 
 	public String getName() {
 		return name;
