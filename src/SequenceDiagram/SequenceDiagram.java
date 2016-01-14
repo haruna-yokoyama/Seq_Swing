@@ -32,9 +32,9 @@ public class SequenceDiagram extends JFrame {
 	private JTextArea textArea;
 	private final Action action_1 = new SwingAction_1();
 
-	private String declaringType;
-	private String methodName;
-	private String returnType;
+	private List<String> declaringType;
+	private List<String> methodName;
+	private List<String> returnType;
 	private List<String> argumentType;
 	private Field fieldName;
 	private Value valueName;
@@ -124,7 +124,7 @@ public class SequenceDiagram extends JFrame {
 				String[] tracePrograms= {"HelloWorld"};    //trace.javaからトレース情報を持ってくる
 				Trace trace = new Trace(tracePrograms);
 
-				ResultTrace resultTrace = new ResultTrace();
+				ResultTrace resultTrace = new ResultTrace();  //
 				declaringType = resultTrace.setDeclaringType(trace.getDeclaringType());
 				methodName = resultTrace.setMethodName(trace.getMethodName());
 				returnType = resultTrace.setReturnType(trace.getReturnType());

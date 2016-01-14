@@ -90,14 +90,12 @@ public class readCSV {
 	}
 
 	/*public void creater(List<List<String>> ret) { // シーケンス図を作成するメソッド
-
 		String className;
 		String methodName = null;
 		int x = ret.size();
 		int y = 0;
 
-		List<Node> nodes = new ArrayList<Node>();
-		// Map<Node, HashMap<Connector, EndPoint>> nodesMap = new HashMap<>();
+		List<Node> nodes = new ArrayList<Node>()
 		List<Connector> connectorList = new ArrayList<Connector>();
 		List<EndPoint> endPoint = new ArrayList<EndPoint>();
 
@@ -108,10 +106,6 @@ public class readCSV {
 
 		Connector connector1 = new Connector(); // method開始のときのconnector
 		Connector connector2 = new Connector(); // method終了のときのconnector
-		// Connector connector3 = new Connector();
-		// Connector connector4 = new Connector();
-		// List<Connector> connectorList = new ArrayList<Connector>();
-		// Connector connector;
 
 		for (List<String> n : ret) {
 			if (y < n.size()) {
@@ -153,7 +147,6 @@ public class readCSV {
 						 *
 						 * connector2.setFrom(endPoint2From);
 						 * connector2.setTo(endPoint2To); }
-
 					}
 				} catch (IndexOutOfBoundsException e) {
 					className = null;
