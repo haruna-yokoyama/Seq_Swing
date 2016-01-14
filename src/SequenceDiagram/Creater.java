@@ -12,11 +12,11 @@ import com.mxgraph.swing.mxGraphComponent;
 public class Creater {
 
 	public Creater(ActionEvent e) {
-		List<List<String>> className = null;
+		String className = null;
 
-		/*
-		 * Node node1 = new Node(); node1.setName("Class1");
-		 */
+		
+		Node node1 = new Node(); node1.setName(className);
+		
 
 		//className = Data_className();
 		//Node node1 = new Node();
@@ -93,89 +93,104 @@ public class Creater {
 
 	}
 
-	// クラス
-	public void Data_className() {
-		readCSV reader = new readCSV("C:\\Users\\cs12097\\Desktop\\"
-				+ "test.csv", 0);
-		//List<List<String>> csv = reader.read();
-		List<String> sub_csv = new ArrayList<String>();
-		System.out.println("aaaaaaaaaa");
-		List<String> data = new ArrayList<String>();
-		//csv.add(data);
-		//System.out.println(csv.get(1));
+	/*public void creater(List<List<String>> ret) { // シーケンス図を作成するメソッド
 
-		//for (List<String> str : csv) {
-			//  System.out.println(str);
-			//}
-		/*
-		 * List<List<String>> list = csv.;
-		 *
-		 * while(list.hasNext()){ System.out.println(list.next()); } return csv;
-		 */
+		String className;
+		String methodName = null;
+		int x = ret.size();
+		int y = 0;
 
-		// List<String> name = csv.get(2);
-		String className2 = null;
-		// StringTokenizer token = null;
-		//Iterator<List<String>> data = csv.iterator();
-		// String str = csv.;*/
-		System.out.println("csvのサイズを表示。");
-		System.out.println(data);
-		//while (data.hasNext()) {
-			//System.out.println(data.next());
-		//}
-		// int index = csv.size();
-		// System.out.println(index);
+		List<Node> nodes = new ArrayList<Node>();
+		// Map<Node, HashMap<Connector, EndPoint>> nodesMap = new HashMap<>();
+		List<Connector> connectorList = new ArrayList<Connector>();
+		List<EndPoint> endPoint = new ArrayList<EndPoint>();
 
-		// className1 = csv.get(index);
-		// Node node1 = new Node();
-		// node1.setName(className1);
+		EndPoint endPoint1From = null; // method開始の位置
+		EndPoint endPoint2From = null; // return発生の位置
+		EndPoint endPoint1To = null; // endPoint1Fromの行き先
+		EndPoint endPoint2To = null; // endPoint2Fromの行き先
 
-		// Node node2 = new Node();
+		Connector connector1 = new Connector(); // method開始のときのconnector
+		Connector connector2 = new Connector(); // method終了のときのconnector
+		// Connector connector3 = new Connector();
+		// Connector connector4 = new Connector();
+		// List<Connector> connectorList = new ArrayList<Connector>();
+		// Connector connector;
 
-		// for (int i = 0; i <= className.size(); i++) {
-		// data = csv.get(i);
+		for (List<String> n : ret) {
+			if (y < n.size()) {
+				y = n.size();
+			}
+		}
+		for (int i = 1; i < x; i++) {
+			for (int j = 0; j < y; j++) {
+				className = ret.get(i).get(0);
+				System.out.println("要素：" + ret.get(i).get(j));
+				try {
+					Node tmp = new Node();
+					tmp.setName(className);
+					nodes.add(tmp);
+					for (int k = 0; k < i; k++) { // connectorのfor文
+						// for (int l = 0; l < nodes.size(); l++) {//
+						methodName = ret.get(i).get(2);
+						connector1 = new Connector();// methodが始まったとき用のconnector
+						connector1.setName(methodName);
 
-		// className2 = csv.set(i+1, className1);
-		// node2.setName(className);
-		// i = +5;
-		// }
-		// return className1;
-		//return csv;
-	}
+						endPoint1From = new EndPoint();
+						endPoint1From.setParentNode(nodes.get(k));
 
-	// メソッド
-	/*
-	 * public void Data_methodName(List<String> csv) { String methodName;
-	 * //String returnType; //String className; //String className2 = null;
-	 * Connector connector = new Connector(); EndPoint endPointFrom = new
-	 * EndPoint(); EndPoint endPointTo = new EndPoint();
-	 *
-	 * for (int i = 0; i < csv.size(); i++) { methodName = csv.get(i);
-	 * connector.setName(methodName);
-	 * endPointFrom.setParentNode(Data_className(csv));
-	 * endPointTo.setParentNode(Data_className(csv));
-	 * connector.setFrom(endPointFrom); connector.setTo(endPointTo); } }
-	 *
-	 * /* Connector connector2 = new Connector(); connector2.setName("method2");
-	 *
-	 * EndPoint endPoint2From = new EndPoint();
-	 * endPoint2From.setParentNode(node2);
-	 *
-	 * EndPoint endPoint2To = new EndPoint(); endPoint2To.setParentNode(node3);
-	 *
-	 * connector2.setFrom(endPoint2From); connector2.setTo(endPoint2To);
-	 */
+						endPoint1To = new EndPoint();
+						endPoint1To.setParentNode(nodes.get(k + 1));
 
-	// 引数の型
-	/*
-	 * public void Data_argumentType(List<List<String>> csv[][]) {
-	 * List<List<String>> argumentType;
-	 *
-	 * for (int i = 0; i < csv.length; i++) { argumentType = csv[3][i]; } }
-	 *
-	 * //変数(型) public void Data_fieldName(List<List<String>> csv[][]) {
-	 * List<List<String>> fieldName;
-	 *
-	 * for (int i = 0; i < csv.length; i++) { fieldName = csv[4][i]; } }
-	 */
+						connector1.setFrom(endPoint1From);
+						connector1.setTo(endPoint1To);
+
+						/*
+						 * for (int l = 0; l < i; l++) { connector2 = new
+						 * Connector(); // return用のconnector
+						 * connector2.setName("return : " + methodName);
+						 * endPoint2From = new EndPoint();
+						 * endPoint2From.setParentNode(nodes.get(k+1));
+						 *
+						 * endPoint2To = new EndPoint();
+						 * endPoint2To.setParentNode(nodes.get(k));
+						 *
+						 * connector2.setFrom(endPoint2From);
+						 * connector2.setTo(endPoint2To); }
+						 
+					}
+				} catch (IndexOutOfBoundsException e) {
+					className = null;
+					// System.out.println("error");
+				}
+				j++;
+			}
+			connectorList.add(connector1);
+		}
+
+		for (int i = x - 1; i > 0; i--) {
+			connector2 = new Connector();// return用のconnector
+			methodName = ret.get(i).get(2);
+			connector2.setName("return : " + methodName);
+			endPoint2From = new EndPoint();
+			endPoint2From.setParentNode(nodes.get(i));
+
+			endPoint2To = new EndPoint();
+			endPoint2To.setParentNode(nodes.get(i - 1));
+
+			connector2.setFrom(endPoint2From);
+			connector2.setTo(endPoint2To);
+			connectorList.add(connector2);
+		}
+		// connectorList.add(connector2);
+
+		writeSeq writeseq = new writeSeq(connectorList);
+		mxGraphComponent graph = writeseq.createGraphComponent();
+
+		JFrame frame = new JFrame();
+		frame.getContentPane().add(new JScrollPane(graph));
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.pack();
+		frame.setVisible(true);
+	}*/
 }

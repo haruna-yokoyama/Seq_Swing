@@ -9,11 +9,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-
-import com.mxgraph.swing.mxGraphComponent;
-
 public class readCSV {
 	private String fileName;
 	private Integer num;
@@ -90,11 +85,11 @@ public class readCSV {
 				e1.printStackTrace();
 			}
 		}
-		creater(ret);
+		//creater(ret);
 		return null;
 	}
 
-	public void creater(List<List<String>> ret) { // シーケンス図を作成するメソッド
+	/*public void creater(List<List<String>> ret) { // シーケンス図を作成するメソッド
 
 		String className;
 		String methodName = null;
@@ -158,7 +153,7 @@ public class readCSV {
 						 *
 						 * connector2.setFrom(endPoint2From);
 						 * connector2.setTo(endPoint2To); }
-						 */
+
 					}
 				} catch (IndexOutOfBoundsException e) {
 					className = null;
@@ -193,7 +188,7 @@ public class readCSV {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);
-	}
+	}*/
 }
 
 

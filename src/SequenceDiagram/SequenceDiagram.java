@@ -111,24 +111,18 @@ public class SequenceDiagram extends JFrame {
 		textArea.setLineWrap(true);
 		scrollPane.setViewportView(textArea);
 
-		JButton button = new JButton("New button");     //「シーケンス図作成」
+		JButton button = new JButton("New button");     //「シーケンス図作成」ボタン
 		button.setBounds(121, 33, 177, 21);
 		button.setAction(action_1);
 		button.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				String[] tracePrograms= {"HelloWorld"};
+				String[] tracePrograms= {"HelloWorld"};    //trace.javaからトレース情報を持ってくる
 				new Trace(tracePrograms);
-				//Trace.generateTrace(methodName);
-				//Trace.main(tracePrograms);
-				//EventThread eventThread = new EventThread(vm, writer, excludes, options);
-				//MethodName methodName = new MethodName();
-				//DeclaringType decType = new DeclaringType();
-				//methodName.getMethodName();
-				//decType.getDeclaringType();
-				//System.out.println("trace結果" + methodName + " , " + decType);
 
-				inputList inputlist = new inputList(e);
-				readCSV readcsv = new readCSV(e);
+				Creater creater = new Creater(e);          //シーケンス図作成
+
+				inputList inputlist = new inputList(e);    //ソースコードをListに格納
+				readCSV readcsv = new readCSV(e);          //トレース情報をCSVファイルに保存、Listにも格納
 			}
 		});
 		getContentPane().add(button);
