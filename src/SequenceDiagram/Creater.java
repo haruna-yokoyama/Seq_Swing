@@ -2,7 +2,9 @@ package SequenceDiagram;
 
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -32,12 +34,56 @@ public class Creater {
 
 	public void createDiagram() {
 
-		// declaringType = resultTrace.getDeclaringType();
-		//methodName = resultTrace.getMethodName();
+		Map<List<String>, Map<List<String>, Map<List<String>, List<String>>>> map1 = new HashMap<>();
+		Map<List<String>, Map<List<String>, List<String>>> map2 = new HashMap<>();
+		Map<List<String>, List<String>> map3 = new HashMap<>();
+
+		declaringType = resultTrace.getDeclaringType();
+		methodName = resultTrace.getMethodName();
 		returnType = resultTrace.getReturnType();
 		argumentType = resultTrace.getArgumentType();
 		fieldName = resultTrace.getFieldName();
 		valueName = resultTrace.getValueName();
+
+		//System.out.println(declaringType.get(1) + "  " + methodName.get(1) + "  " + returnType.get(1) + "  " + argumentType.get(1) + "  " + fieldName + "  " + valueName);
+
+		map1.put(declaringType, map2);
+		map2.put(methodName, map3);
+		map3.put(returnType, argumentType);
+
+		Node tmp_node;
+		Connector tmp_connector;
+		EndPoint tmp_endPointFrom;
+		EndPoint tmp_endPointTo;
+		for(int i = 0; i < nodes.size(); i++){
+			tmp_node = new Node();
+			tmp_node.setName(declaringType);
+			nodes.add(tmp_node);
+			if(nodes.get(i).equals(nodes.get(i+1)) == false){ //i番目とi+1番目のnodesの名前が同じではなかったら
+				tmp_node = new Node();
+				tmp_node.setName(declaringType);
+				nodes.add(tmp_node);
+			}
+			methodName = (List<String>) map1.get(declaringType);
+			tmp_connector = new Connector();
+			tmp_connector.setName(methodName);
+			connectors.add(tmp_connector);
+
+			tmp_endPointFrom = new EndPoint();
+			tmp_endPointFrom.setParentNode(tmp_node);
+			endPoints.add(tmp_endPointFrom);
+
+			tmp_endPointTo = new EndPoint();
+			tmp_endPointTo.setParentNode(nodes.get(i+1));
+			endPoints.add(tmp_endPointTo);
+
+		    tmp_connector.setFrom(tmp_endPointFrom);
+		    tmp_connector.setTo(tmp_endPointTo);
+
+
+
+		}
+
 
 		List<Connector> connectorList = new ArrayList<Connector>();
 		// for (int i = 0; i < connectorList.size(); i++) {
@@ -55,7 +101,7 @@ public class Creater {
 		frame.setVisible(true);
 	}
 
-	public List<Node> createNodes() {
+	/*public List<Node> createNodes() {
 		declaringType = resultTrace.getDeclaringType();
 		Node tmp_node;
 
@@ -69,11 +115,13 @@ public class Creater {
 
 	public List<Connector> createConnectors(){
 		methodName = resultTrace.getMethodName();
+		fieldName = resultTrace.getFieldName();
 
 		for(int i = 0; i < connectors.size(); i++){
 			Connector tmp_connector = new Connector();
 			tmp_connector.setName(methodName);
 			connectors.add(tmp_connector);
+
 		}
 		return connectors;
 	}
@@ -84,7 +132,7 @@ public class Creater {
 			tmp_endPointFrom.setParentNode(nodes);
 			endPoints.add(tmp_endPointFrom);
 		}
-		for(int j = 0; i < connectors.size(); j++){
+		for(int j = 0; j < connectors.size(); j++){
 			EndPoint tmp_endPointTo = new EndPoint();
 			tmp_endPointTo.setParentNode(nodes);
 			endPoints.add(tmp_endPointTo);
@@ -94,6 +142,9 @@ public class Creater {
 	}
 
 	public Field fields(){
+		fieldName = resultTrace.getFieldName();
+
+		//for(int i = 0; i < )
 
 		return null;
 
@@ -117,8 +168,7 @@ public class Creater {
 	 *
 	 * Connector connector2 = new Connector(); connector2.setName("method2");
 	 *
-	 * EndPoint endPoint2From = new EndPoint();
-	 * endPoint2From.setParentNode(node2);
+	 * EndPoint endPoint2From = new EndPoint(); endPoint2From.setParentNode(node2);
 	 *
 	 * EndPoint endPoint2To = new EndPoint(); endPoint2To.setParentNode(node3);
 	 *
