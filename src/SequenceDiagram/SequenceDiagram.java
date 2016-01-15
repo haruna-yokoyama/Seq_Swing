@@ -121,6 +121,7 @@ public class SequenceDiagram extends JFrame {
 		button.setAction(action_1);
 		button.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
+				System.out.println("=======resultTrace========");
 				String[] tracePrograms= {"HelloWorld"};    //trace.javaからトレース情報を持ってくる
 				Trace trace = new Trace(tracePrograms);
 
@@ -132,6 +133,8 @@ public class SequenceDiagram extends JFrame {
 				fieldName = resultTrace.setFieldName(trace.getFieldName());
 				valueName = resultTrace.setValueName(trace.getValueName());
 
+
+				//System.out.println(declaringType.get(0) + "  " + methodName.get(0) + "  " + returnType.get(0) + "  " + argumentType.get(0) + "  " + fieldName + "  " + valueName);
 				Creater creater = new Creater(e);          //シーケンス図作成
 
 				inputList inputlist = new inputList(e);    //ソースコードをListに格納
