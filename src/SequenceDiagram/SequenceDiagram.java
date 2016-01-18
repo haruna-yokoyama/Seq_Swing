@@ -6,8 +6,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.List;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -21,16 +19,18 @@ import com.sun.jdi.Field;
 import com.sun.jdi.Value;
 import com.sun.tools.example.trace.Trace;
 
-public class SequenceDiagram extends JFrame {
+public class SequenceDiagram extends JFrame implements ActionListener {
+
 
 	private JPanel contentPane;
 	private JFrame frame;
 	private JFrame frmTexteditor;
 	private JButton btnNewButton;
+	private JButton button;
 	private JLabel lblNewLabel;
-	private final Action action = new SwingAction();
+	// private final Action action = new SwingAction();
 	private JTextArea textArea;
-	private final Action action_1 = new SwingAction_1();
+	// private final Action action_1 = new SwingAction_1();
 
 	private List<String> declaringType;
 	private List<String> methodName;
@@ -39,10 +39,10 @@ public class SequenceDiagram extends JFrame {
 	private Field fieldName;
 	private Value valueName;
 
-
-	//public String[] PanelNames = {"mp", "SeqPanel"};
-	//SequenceDiagram mp = new SequenceDiagram(this,PanelNames[0]);
-	//SeqPanel sp = new SeqPanel(this,PanelNames[1]);
+	Trace trace;
+	// public String[] PanelNames = {"mp", "SeqPanel"};
+	// SequenceDiagram mp = new SequenceDiagram(this,PanelNames[0]);
+	// SeqPanel sp = new SeqPanel(this,PanelNames[1]);
 
 	static String str;
 
@@ -52,7 +52,7 @@ public class SequenceDiagram extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		argss=args;
+		argss = args;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -67,6 +67,7 @@ public class SequenceDiagram extends JFrame {
 
 	/**
 	 * Create the frame.
+	 *
 	 * @param panelNames2
 	 * @param sequenceDiagram
 	 */
@@ -88,23 +89,13 @@ public class SequenceDiagram extends JFrame {
 		lblNewLabel.setBounds(12, 10, 113, 13);
 		contentPane.add(lblNewLabel);
 
-		JButton btnNewButton = new JButton("New button"); // 「開く」ボタン
+		JButton btnNewButton = new JButton("開く"); // 「開く」ボタン
 		final JTextArea textArea = new JTextArea();
 
 		btnNewButton.setBounds(12, 33, 91, 21);
-		btnNewButton.setAction(action);
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JFileChooser filechooser = new JFileChooser(); // ファイル選択用クラス
+		// btnNewButton.setAction(action);
+		btnNewButton.addActionListener(this);
 
-				int selected = filechooser.showOpenDialog(frame); // 「開く」ダイアログ表示
-				if (selected == JFileChooser.APPROVE_OPTION) {
-					File file = filechooser.getSelectedFile();
-					lblNewLabel.setText(file.getName());
-					textArea.setText(Filehandler.read(file.getPath())); // ファイルの中身を表示
-				}
-			}
-		});
 		contentPane.add(btnNewButton);
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -116,49 +107,78 @@ public class SequenceDiagram extends JFrame {
 		textArea.setLineWrap(true);
 		scrollPane.setViewportView(textArea);
 
-		JButton button = new JButton("New button");     //「シーケンス図作成」ボタン
+		String[] tracePrograms = { "HelloWorld" };
+		System.out.println("iiiiiiiiiiiiiiiiiii");
+		trace = new Trace(tracePrograms);
+		System.out.println("uuuuuuuuuuuuuuuuu");
+		button = new JButton("シーケンス図作成"); // 「シーケンス図作成」ボタン
 		button.setBounds(121, 33, 177, 21);
-		button.setAction(action_1);
-		button.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				System.out.println("=======resultTrace========");
-				String[] tracePrograms= {"HelloWorld"};    //trace.javaからトレース情報を持ってくる
-				Trace trace = new Trace(tracePrograms);
+		// button.setAction(action_1);
+		button.addActionListener(this);
 
-				ResultTrace resultTrace = new ResultTrace();  //
-				declaringType = resultTrace.setDeclaringType(trace.getDeclaringType(declaringType));
-				methodName = resultTrace.setMethodName(trace.getMethodName());
-				returnType = resultTrace.setReturnType(trace.getReturnType());
-				argumentType = resultTrace.setArgumentType(trace.getArgumentType());
-				fieldName = resultTrace.setFieldName(trace.getFieldName());
-				valueName = resultTrace.setValueName(trace.getValueName());
-
-
-				//System.out.println(declaringType.get(0) + "  " + methodName.get(0) + "  " + returnType.get(0) + "  " + argumentType.get(0) + "  " + fieldName + "  " + valueName);
-				Creater creater = new Creater(e);          //シーケンス図作成
-
-				inputList inputlist = new inputList(e);    //ソースコードをListに格納
-				readCSV readcsv = new readCSV(e);          //トレース情報をCSVファイルに保存、Listにも格納
-			}
-		});
 		getContentPane().add(button);
 	}
 
-	private class SwingAction extends AbstractAction {
-		public SwingAction() {
-			putValue(NAME,"開く");
-			putValue(SHORT_DESCRIPTION, "Some short description");
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource().equals(btnNewButton)) {// newボタンが押されたときのアクション
+			JFileChooser filechooser = new JFileChooser(); // ファイル選択用クラス
+
+			int selected = filechooser.showOpenDialog(frame); // 「開く」ダイアログ表示
+			if (selected == JFileChooser.APPROVE_OPTION) {
+				File file = filechooser.getSelectedFile();
+				lblNewLabel.setText(file.getName());
+				textArea.setText(Filehandler.read(file.getPath())); // ファイルの中身を表示
+			}
 		}
-		public void actionPerformed(ActionEvent e) {
+
+		if (e.getSource().equals(button)) {// buttonが押されたときのアクション
+			System.out.println("1=======resultTracSe========");
+			// String[] tracePrograms= {"HelloWorld"};
+			// //trace.javaからトレース情報を持ってくる
+			System.out.println("2=======resultTrace========");
+			// Trace trace = new Trace(tracePrograms);
+			System.out.println("3=======resultTrace========");
+
+			declaringType = trace.getDeclaringType();
+			methodName = trace.getMethodName();
+			returnType = trace.getReturnType();
+			argumentType = trace.getArgumentType();
+			fieldName = trace.getFieldName();
+			valueName = trace.getValueName();
+
+			System.out.println("aaaaaaaaaaaaaa : " + declaringType);
+
+			ResultTrace resultTrace = new ResultTrace(); //
+			System.out.println("4=======resultTrace========");
+
+			// System.out.println(declaringType.get(0) + "  " +
+			// methodName.get(0) +
+			// "  " + returnType.get(0) + "  " + argumentType.get(0) + "  " +
+			// fieldName + "  " + valueName);
+			Creater creater = new Creater(e); // シーケンス図作成
+
+			inputList inputlist = new inputList(e); // ソースコードをListに格納
+			readCSV readcsv = new readCSV(e); // トレース情報をCSVファイルに保存、Listにも格納
+
+			System.out.println("5=======resultTrace========");
+
+
 		}
 	}
 
-	private class SwingAction_1 extends AbstractAction {
-		public SwingAction_1() {
-			putValue(NAME, "シーケンス図作成");
-			putValue(SHORT_DESCRIPTION, "Some short description");
-		}
-		public void actionPerformed(ActionEvent e) {
-		}
-	}
+	/*
+	 * private class SwingAction extends AbstractAction { public SwingAction() {
+	 * putValue(NAME, "開く"); putValue(SHORT_DESCRIPTION,
+	 * "Some short description"); }
+	 *
+	 * public void actionPerformed(ActionEvent e) { } }
+	 */
+
+	/*
+	 * private class SwingAction_1 extends AbstractAction { public
+	 * SwingAction_1() { putValue(NAME, "シーケンス図作成"); putValue(SHORT_DESCRIPTION,
+	 * "Some short description"); }
+	 *
+	 * public void actionPerformed(ActionEvent e) { } }
+	 */
 }
