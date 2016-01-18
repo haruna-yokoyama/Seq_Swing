@@ -126,7 +126,7 @@ public class SequenceDiagram extends JFrame {
 				Trace trace = new Trace(tracePrograms);
 
 				ResultTrace resultTrace = new ResultTrace();  //
-				declaringType = resultTrace.setDeclaringType(trace.getDeclaringType());
+				declaringType = resultTrace.setDeclaringType(trace.getDeclaringType(declaringType));
 				methodName = resultTrace.setMethodName(trace.getMethodName());
 				returnType = resultTrace.setReturnType(trace.getReturnType());
 				argumentType = resultTrace.setArgumentType(trace.getArgumentType());
