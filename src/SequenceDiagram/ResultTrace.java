@@ -15,6 +15,7 @@ public class ResultTrace {
 
 
 	public List<String> getMethodName() {
+//		methodName.addAll(methodName);
 		return methodName;
 	}
 	public List<String> setMethodName(List<String> methodName) {
@@ -23,6 +24,7 @@ public class ResultTrace {
 
 
 	public List<String> getDeclaringType() {
+//		declaringType.addAll(declaringType);
 		return declaringType;
 	}
 	public List<String> setDeclaringType(List<String> declaringType) {
