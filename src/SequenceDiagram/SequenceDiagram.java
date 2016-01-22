@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -33,10 +34,10 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 	private JLabel lblNewLabel;
 	private JTextArea textArea;
 
-	private List<String> declaringType;
-	private List<String> methodName;
-	private List<String> returnType;
-	private List<String> argumentType;
+	private List<String> declaringType = new ArrayList<>();
+	private List<String> methodName = new ArrayList<>();
+	private List<String> returnType = new ArrayList<>();
+	private List<String> argumentType = new ArrayList<>();
 	private Field fieldName;
 	private Value valueName;
 
@@ -92,17 +93,15 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 		scrollPane.setBounds(12, 64, 482, 250);
 		contentPane.add(scrollPane);
 
-		//JTextArea textArea = new JTextArea();
+		// JTextArea textArea = new JTextArea();
 		textArea.setWrapStyleWord(true);
 		textArea.setLineWrap(true);
 		scrollPane.setViewportView(textArea);
-
 
 		String[] tracePrograms = { "HelloWorld" };
 		System.out.println("iiiiiiiiiiiiiiiiiii");
 		trace = new Trace(tracePrograms);
 		System.out.println("uuuuuuuuuuuuuuuuu");
-
 
 		button = new JButton("シーケンス図作成"); // 「シーケンス図作成」ボタン
 		button.setBounds(121, 33, 177, 21);
@@ -148,21 +147,13 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 				if (newfile1.createNewFile()) {
 					System.out.println("ファイルの作成に成功しました");
 					FileWriter filewriter = new FileWriter(newfile1);
-					for (int i = 0; i < declaringType.size(); i++) {
-						filewriter.write(declaringType.get(i) + " , ");
-					}
+					filewriter.write(declaringType + " , ");
 					filewriter.write("\n");
-					for (int i = 0; i < methodName.size(); i++) {
-						filewriter.write(methodName.get(i) + " , ");
-					}
+					filewriter.write(methodName + " , ");
 					filewriter.write("\n");
-					for (int i = 0; i < returnType.size(); i++) {
-						filewriter.write(returnType.get(i) + " , ");
-					}
+					filewriter.write(returnType + " , ");
 					filewriter.write("\n");
-					for (int i = 0; i < argumentType.size(); i++) {
-						filewriter.write(argumentType.get(i) + " , ");
-					}
+					filewriter.write(argumentType + " , ");
 					filewriter.write("\n");
 					filewriter.write(valueName + ",");
 					filewriter.write(fieldName + ",");
@@ -195,21 +186,13 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 				if (newfile.createNewFile()) {
 					System.out.println("ファイルの作成に成功しました");
 					FileWriter filewriter = new FileWriter(newfile);
-					for (int i = 0; i < declaringType.size(); i++) {
-						filewriter.write(declaringType.get(i) + " , ");
-					}
+					filewriter.write(declaringType + " , ");
 					filewriter.write("\n");
-					for (int i = 0; i < methodName.size(); i++) {
-						filewriter.write(methodName.get(i) + " , ");
-					}
+					filewriter.write(methodName + " , ");
 					filewriter.write("\n");
-					for (int i = 0; i < returnType.size(); i++) {
-						filewriter.write(returnType.get(i) + " , ");
-					}
+					filewriter.write(returnType + " , ");
 					filewriter.write("\n");
-					for (int i = 0; i < argumentType.size(); i++) {
-						filewriter.write(argumentType.get(i) + " , ");
-					}
+					filewriter.write(argumentType + " , ");
 					filewriter.write("\n");
 					filewriter.write(valueName + ",");
 					filewriter.write(fieldName + ",");
@@ -225,7 +208,7 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 		}
 	}
 
-	public ResultTrace getResultTrace(){
+	public ResultTrace getResultTrace() {
 		return this.resultTrace;
 	}
 }

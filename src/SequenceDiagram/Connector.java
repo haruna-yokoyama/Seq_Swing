@@ -1,10 +1,10 @@
 package SequenceDiagram;
 
-import java.util.List;
+
 
 
 public class Connector {
-	private List<String> name;  // =methodName
+	private String name;  // =methodName
 	private EndPoint from;
 	private EndPoint to;
 	private String ConnectorType;
@@ -15,10 +15,10 @@ public class Connector {
 	public void setConnectorType(String connectorType) {
 		this.ConnectorType = connectorType;
 	}
-	public List<String> getName() {
+	public String getName() {
 		return name;
 	}
-	public void setName(List<String> name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 	public EndPoint getFrom() {
