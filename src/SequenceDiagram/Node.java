@@ -6,9 +6,9 @@ public class Node {
 	private List<String> name;  //nodeに入る名前
 	private String name1;
 
-	public List<String> getName1() {
-		return name;
-	}
+//	public List<String> getName1() {
+//		return name;
+//	}
 	public void setName(List<String> name) {
 		this.name = name;
 	}
