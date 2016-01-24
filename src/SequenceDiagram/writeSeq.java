@@ -35,10 +35,10 @@ public class writeSeq {
 	private int nodeHeight = 20;
 
 	// ノードの間隔
-	private int nodeInterval = 10;
+	private int nodeInterval = 20;
 
 	// 結線の間隔
-	private int edgeInterval = 25;
+	private int edgeInterval = 35;
 
 	private mxGraph graph;
 
