@@ -9,7 +9,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.swing.DefaultListModel;
+
 public class Filehandler {
+	
+	protected DefaultListModel model;
+	
 
 	public static String read(String path) {
 		BufferedReader br;
@@ -45,4 +50,7 @@ public class Filehandler {
 			e.printStackTrace();
 		}
 	}
+
+	
+
 }

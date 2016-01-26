@@ -1,6 +1,7 @@
 package SequenceDiagram;
 
-import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -13,15 +14,21 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
 import com.mxgraph.swing.mxGraphComponent;
+import com.mxgraph.view.mxGraph;
 import com.sun.jdi.Field;
+import com.sun.jdi.Location;
 import com.sun.jdi.Value;
 
-public class Creater {
+
+
+public class Creater extends JFrame{
+
 
 	public List<String> declaringType = new ArrayList<>();
 	public List<String> methodName = new ArrayList<>();
 	public List<String> returnType = new ArrayList<>();
 	public List<String> argumentType = new ArrayList<>();
+	public List<Location> lineLocation = new ArrayList<>();
 	public Field fieldName;
 	public Value valueName;
 
@@ -31,9 +38,10 @@ public class Creater {
 
 	Map<List<String>, List<String>> map1 = new HashMap<>();
 	Map<List<String>, List<String>> map2 = new HashMap<>();
-	Map<List<String>, List<String>> map3 = new HashMap<>();
+	Map<List<String>, List<Location>> map3 = new HashMap<>();
+	Map<List<String>, List<String>> map4 = new HashMap<>();
 
-	public Creater(ActionEvent e) {
+	public Creater() {
 		createDiagram();
 	}
 
@@ -43,12 +51,14 @@ public class Creater {
 		methodName = SequenceDiagram.resultTrace.getMethodName();
 		returnType = SequenceDiagram.resultTrace.getReturnType();
 		argumentType = SequenceDiagram.resultTrace.getArgumentType();
+		lineLocation = SequenceDiagram.resultTrace.getLineLocation();
 		fieldName = SequenceDiagram.resultTrace.getFieldName();
 		valueName = SequenceDiagram.resultTrace.getValueName();
 
 		map1.put(declaringType, methodName);
 		map2.put(methodName, returnType);
-		map3.put(returnType, argumentType);
+		map3.put(methodName, lineLocation);
+		map4.put(returnType, argumentType);
 
 		// List<Connector> connectorList = new ArrayList<Connector>();
 		Node[] node_array = new Node[10];
@@ -66,7 +76,8 @@ public class Creater {
 
 		fromConnector(nodes, nodes.indexOf(tmp_node), nodes.indexOf(tmp_node1)); //
 
-		// toConnector(nodes, nodes.indexOf(tmp_node), nodes.indexOf(tmp_node1)); //
+		// toConnector(nodes, nodes.indexOf(tmp_node),
+		// nodes.indexOf(tmp_node1)); //
 
 		Node tmp_node2 = new Node();
 		tmp_node2.setName(declaringType.get(2) + ":"
@@ -74,7 +85,8 @@ public class Creater {
 		nodes.add(tmp_node2);
 
 		fromConnector(nodes, nodes.indexOf(tmp_node1), nodes.indexOf(tmp_node2)); //
-		// toConnector(nodes, nodes.indexOf(tmp_node1), nodes.indexOf(tmp_node2)); //
+		// toConnector(nodes, nodes.indexOf(tmp_node1),
+		// nodes.indexOf(tmp_node2)); //
 
 		Node tmp_node3 = new Node();
 		tmp_node3.setName(declaringType.get(3) + ":"
@@ -82,7 +94,8 @@ public class Creater {
 		nodes.add(tmp_node3);
 
 		fromConnector(nodes, nodes.indexOf(tmp_node1), nodes.indexOf(tmp_node3)); //
-		// toConnector(nodes, nodes.indexOf(tmp_node1), nodes.indexOf(tmp_node3)); //
+		// toConnector(nodes, nodes.indexOf(tmp_node1),
+		// nodes.indexOf(tmp_node3)); //
 
 		Node tmp_node4 = new Node();
 		tmp_node4.setName(declaringType.get(4) + ":"
@@ -112,11 +125,22 @@ public class Creater {
 		toConnector(nodes, nodes.indexOf(tmp_node1), nodes.indexOf(tmp_node2)); //
 		toConnector(nodes, nodes.indexOf(tmp_node), nodes.indexOf(tmp_node1)); //
 
-		keepData(declaringType, methodName, returnType, argumentType,
-				fieldName, valueName, nodes);
+//		keepData(declaringType, methodName, returnType, argumentType,
+//				lineLocation, fieldName, valueName, nodes);
 
 		writeSeq writeseq = new writeSeq(connectors);
 		mxGraphComponent graph = writeseq.createGraphComponent();
+
+		//マウスイベント-----------------------
+		mxGraph mxgraph = new mxGraph();
+		//mxGraphComponent graphComponent = new mxGraphComponent(mxgraph);
+		getContentPane().add(graph);
+		graph.getGraphControl().addMouseListener(new MouseAdapter(){
+			 public void mouseReleased(MouseEvent ev){
+				pushEvent(ev, graph, mxgraph);
+			    }
+		});
+		//-----------------------
 
 		JFrame frame = new JFrame();
 		frame.getContentPane().add(new JScrollPane(graph));
@@ -125,9 +149,22 @@ public class Creater {
 		frame.setVisible(true);
 	}
 
+	public void pushEvent(MouseEvent ev, mxGraphComponent graph, mxGraph mxgraph){
+		 Object cell = graph.getCellAt(ev.getX(), ev.getY());
+		    if( cell != null ){
+		      System.out.println("clicked:"+ mxgraph.getLabel(cell));
+
+		    }
+		    keepData(declaringType, methodName, returnType, argumentType,
+					lineLocation, fieldName, valueName, nodes, cell);
+
+	}
+
 	// 「→」のconnectorを作るメソッド
 	public List<Connector> fromConnector(List<Node> node, int index, int index1) {
 		int deff = index1 - index;
+		boolean flag = false; // マウスがクリックされたかどうかを判定する
+
 		Connector tmp_connector = new Connector();
 		if (deff > 1) {
 			tmp_connector.setName(map1.get(declaringType).get(index + deff));
@@ -146,6 +183,11 @@ public class Creater {
 
 		tmp_connector.setFrom(tmp_endPointFrom);
 		tmp_connector.setTo(tmp_endPointTo);
+
+//		if(flag == true){
+//		myListener listener = new myListener();
+//		}
+
 		return connectors;
 	}
 
@@ -175,9 +217,28 @@ public class Creater {
 		return connectors;
 	}
 
+//	public class myListener extends MouseAdapter {
+//		public void mouseClicked(MouseEvent e, int index) {
+//
+//			if (e.getButton() == MouseEvent.BUTTON1) { // 左クリックだったら → 行番号を表示
+//				map3.get(methodName).get(index);
+//
+//			}
+//			if (e.getButton() == MouseEvent.BUTTON3) {// 右クリックだったら → 変数などの情報を表示
+//			}
+//
+//		}
+//
+//	}
+
+
+
+
+
 	void keepData(List<String> declaringType, List<String> methodName,
-			List<String> returnType, List<String> argumentType, Field field,
-			Value value, List<Node> nodes) {
+			List<String> returnType, List<String> argumentType,
+			List<Location> lineLocation, Field field, Value value,
+			List<Node> nodes,Object cell) {
 		File newfile = new File("C:\\Users\\cs12097\\Desktop\\cccccc.txt");
 		try {
 			if (newfile.createNewFile()) {
@@ -192,9 +253,11 @@ public class Creater {
 				filewriter.write("\n");
 				filewriter.write(argumentType + " , ");
 				filewriter.write("\n");
+				filewriter.write(lineLocation + " ");
 				filewriter.write(valueName + ",");
 				filewriter.write(fieldName + ",");
 				filewriter.write(nodes + "");
+				filewriter.write(cell+ "");
 
 				filewriter.close();
 			} else {
@@ -204,4 +267,5 @@ public class Creater {
 			System.out.println(o);
 		}
 	}
+
 }

@@ -3,6 +3,7 @@ package SequenceDiagram;
 import java.util.List;
 
 import com.sun.jdi.Field;
+import com.sun.jdi.Location;
 import com.sun.jdi.Value;
 
 public class ResultTrace {
@@ -12,6 +13,7 @@ public class ResultTrace {
 	private List<String> argumentType;
 	private Field fieldName;
 	private Value valueName;
+	private List<Location> lineLocation;
 
 
 	public List<String> getMethodName() {
@@ -61,5 +63,13 @@ public class ResultTrace {
 	}
 	public Value setValueName(Value valueName) {
 		return this.valueName = valueName;
+	}
+
+
+	public List<Location> getLineLocation() {
+		return lineLocation;
+	}
+	public List<Location> setLineLocation(List<Location> lineLocation) {
+		return this.lineLocation = lineLocation;
 	}
 }

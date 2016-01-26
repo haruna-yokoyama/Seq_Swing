@@ -19,6 +19,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
 import com.sun.jdi.Field;
+import com.sun.jdi.Location;
 import com.sun.jdi.Value;
 import com.sun.tools.example.trace.Trace;
 
@@ -38,6 +39,7 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 	private List<String> methodName = new ArrayList<>();
 	private List<String> returnType = new ArrayList<>();
 	private List<String> argumentType = new ArrayList<>();
+	private List<Location> lineLocation = new ArrayList<>();
 	private Field fieldName;
 	private Value valueName;
 
@@ -136,6 +138,7 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 			methodName = trace.getMethodName();
 			returnType = trace.getReturnType();
 			argumentType = trace.getArgumentType();
+			lineLocation = trace.getLineLication();
 			fieldName = trace.getFieldName();
 			valueName = trace.getValueName();
 
@@ -171,6 +174,7 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 			methodName = resultTrace.setMethodName(methodName);
 			returnType = resultTrace.setReturnType(returnType);
 			argumentType = resultTrace.setArgumentType(argumentType);
+			lineLocation = resultTrace.setLineLocation(lineLocation);
 			fieldName = resultTrace.setFieldName(fieldName);
 			valueName = resultTrace.setValueName(valueName);
 			System.out.println("4=======resultTrace========");
@@ -204,7 +208,7 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 				System.out.println(o);
 			}
 			// ------------------------------------------------------------
-			Creater creater = new Creater(e); // シーケンス図作成
+			Creater creater = new Creater(); // シーケンス図作成
 		}
 	}
 
