@@ -19,10 +19,7 @@ import com.sun.jdi.Field;
 import com.sun.jdi.Location;
 import com.sun.jdi.Value;
 
-
-
-public class Creater extends JFrame{
-
+public class Creater extends JFrame {
 
 	public List<String> declaringType = new ArrayList<>();
 	public List<String> methodName = new ArrayList<>();
@@ -61,7 +58,7 @@ public class Creater extends JFrame{
 		map4.put(returnType, argumentType);
 
 		// List<Connector> connectorList = new ArrayList<Connector>();
-		Node[] node_array = new Node[10];
+		// Node[] node_array = new Node[10];
 
 		// ここから作図
 		Node tmp_node = new Node();
@@ -125,22 +122,20 @@ public class Creater extends JFrame{
 		toConnector(nodes, nodes.indexOf(tmp_node1), nodes.indexOf(tmp_node2)); //
 		toConnector(nodes, nodes.indexOf(tmp_node), nodes.indexOf(tmp_node1)); //
 
-//		keepData(declaringType, methodName, returnType, argumentType,
-//				lineLocation, fieldName, valueName, nodes);
-
 		writeSeq writeseq = new writeSeq(connectors);
 		mxGraphComponent graph = writeseq.createGraphComponent();
 
-		//マウスイベント-----------------------
+		// マウスイベント-----------------------
 		mxGraph mxgraph = new mxGraph();
-		//mxGraphComponent graphComponent = new mxGraphComponent(mxgraph);
+		// mxGraphComponent graphComponent = new mxGraphComponent(mxgraph);
 		getContentPane().add(graph);
-		graph.getGraphControl().addMouseListener(new MouseAdapter(){
-			 public void mouseReleased(MouseEvent ev){
+		graph.getGraphControl().addMouseListener(new MouseAdapter() {
+			// clickedEvent clicked = new clickedEvent();
+			public void mouseReleased(MouseEvent ev) {
 				pushEvent(ev, graph, mxgraph);
-			    }
+			}
 		});
-		//-----------------------
+		// -----------------------
 
 		JFrame frame = new JFrame();
 		frame.getContentPane().add(new JScrollPane(graph));
@@ -149,21 +144,32 @@ public class Creater extends JFrame{
 		frame.setVisible(true);
 	}
 
-	public void pushEvent(MouseEvent ev, mxGraphComponent graph, mxGraph mxgraph){
-		 Object cell = graph.getCellAt(ev.getX(), ev.getY());
-		    if( cell != null ){
-		      System.out.println("clicked:"+ mxgraph.getLabel(cell));
+	public void pushEvent(MouseEvent ev, mxGraphComponent graph, mxGraph mxgraph) {
+		Object cell = graph.getCellAt(ev.getX(), ev.getY());
+		List<Object> cells = new ArrayList<>();
+		List<Location> line = new ArrayList<>();
+		for (int i = 0; i < ev.getClickCount(); i++) {
+			if (cell != null) {
+				System.out.println("clicked:" + mxgraph.getLabel(cell));
 
-		    }
-		    keepData(declaringType, methodName, returnType, argumentType,
-					lineLocation, fieldName, valueName, nodes, cell);
+				if (map3.containsKey(methodName)) {
+					cells.add(cell);
+					line = map3.get(methodName);
+					Filehandler fileHandler = new Filehandler();
+					fileHandler = line;
+					//どうやったらlineをfilehandlerに渡せるか？
+					}
+				}
+
+		}
+		keepData(declaringType, methodName, returnType, argumentType,
+				lineLocation, fieldName, valueName, nodes, cell, cells);
 
 	}
 
 	// 「→」のconnectorを作るメソッド
 	public List<Connector> fromConnector(List<Node> node, int index, int index1) {
 		int deff = index1 - index;
-		boolean flag = false; // マウスがクリックされたかどうかを判定する
 
 		Connector tmp_connector = new Connector();
 		if (deff > 1) {
@@ -183,10 +189,6 @@ public class Creater extends JFrame{
 
 		tmp_connector.setFrom(tmp_endPointFrom);
 		tmp_connector.setTo(tmp_endPointTo);
-
-//		if(flag == true){
-//		myListener listener = new myListener();
-//		}
 
 		return connectors;
 	}
@@ -217,28 +219,11 @@ public class Creater extends JFrame{
 		return connectors;
 	}
 
-//	public class myListener extends MouseAdapter {
-//		public void mouseClicked(MouseEvent e, int index) {
-//
-//			if (e.getButton() == MouseEvent.BUTTON1) { // 左クリックだったら → 行番号を表示
-//				map3.get(methodName).get(index);
-//
-//			}
-//			if (e.getButton() == MouseEvent.BUTTON3) {// 右クリックだったら → 変数などの情報を表示
-//			}
-//
-//		}
-//
-//	}
-
-
-
-
-
+	// ファイル書き込み
 	void keepData(List<String> declaringType, List<String> methodName,
 			List<String> returnType, List<String> argumentType,
 			List<Location> lineLocation, Field field, Value value,
-			List<Node> nodes,Object cell) {
+			List<Node> nodes, Object cell, List<Object> cells) {
 		File newfile = new File("C:\\Users\\cs12097\\Desktop\\cccccc.txt");
 		try {
 			if (newfile.createNewFile()) {
@@ -257,8 +242,8 @@ public class Creater extends JFrame{
 				filewriter.write(valueName + ",");
 				filewriter.write(fieldName + ",");
 				filewriter.write(nodes + "");
-				filewriter.write(cell+ "");
-
+				filewriter.write(cell + "");
+				filewriter.write(cells + "");
 				filewriter.close();
 			} else {
 				System.out.println("ファイルの作成に失敗しました");
@@ -267,5 +252,4 @@ public class Creater extends JFrame{
 			System.out.println(o);
 		}
 	}
-
 }

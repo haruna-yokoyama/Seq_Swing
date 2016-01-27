@@ -92,7 +92,7 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 		getContentPane().add(btnNewButton);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 64, 482, 250);
+		scrollPane.setBounds(12, 64, 482, 500);
 		contentPane.add(scrollPane);
 
 		// JTextArea textArea = new JTextArea();

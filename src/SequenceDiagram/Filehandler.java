@@ -9,12 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javax.swing.DefaultListModel;
-
 public class Filehandler {
-	
-	protected DefaultListModel model;
-	
 
 	public static String read(String path) {
 		BufferedReader br;
@@ -49,8 +44,16 @@ public class Filehandler {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		//MouseEvent ev = null;
+		//showSourceCode(ev);
 	}
 
-	
+//	public static void showSourceCode(MouseEvent ev){
+//		Creater creater = new Creater();
+//		creater.pushEvent(ev, graph, mxgraph);
+//
+//	}
+
 
 }
