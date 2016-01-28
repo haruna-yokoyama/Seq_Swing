@@ -1,8 +1,10 @@
 package SequenceDiagram;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -18,6 +20,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
+import SequenceDiagram.Creater.MyMouseAdapter;
+
+import com.mxgraph.swing.mxGraphComponent;
+import com.mxgraph.view.mxGraph;
 import com.sun.jdi.Field;
 import com.sun.jdi.Location;
 import com.sun.jdi.Value;
@@ -26,10 +32,10 @@ import com.sun.tools.example.trace.Trace;
 public class SequenceDiagram extends JFrame implements ActionListener {
 
 	static public ResultTrace resultTrace;
+	static public Creater pushEvent;
 
 	private JPanel contentPane;
 	private JFrame frame;
-	private JFrame frmTexteditor;
 	private JButton btnNewButton;
 	private JButton button;
 	private JLabel lblNewLabel;
@@ -40,6 +46,7 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 	private List<String> returnType = new ArrayList<>();
 	private List<String> argumentType = new ArrayList<>();
 	private List<Location> lineLocation = new ArrayList<>();
+
 	private Field fieldName;
 	private Value valueName;
 
@@ -112,6 +119,34 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 
 		getContentPane().add(button);
 	}
+
+	// 色を付けるメソッド
+	public void giveColor(ActionEvent e) {
+		mxGraph mxgraph = new mxGraph();
+		mxGraphComponent graph = new mxGraphComponent(mxgraph);
+		Creater creater = new Creater();
+		MyMouseAdapter mouseAdapter = creater.new MyMouseAdapter(graph, mxgraph);
+		//MouseEvent ev = this.addMouseListener();
+		MyMouseAdapter.mouseReleased(ActionEvent e);
+		textArea.setSelectionColor(Color.YELLOW);
+
+		// -------------------------------------------------
+		File newfile1 = new File("C:\\Users\\cs12097\\Desktop\\ddddddd.txt");
+		try {
+			if (newfile1.createNewFile()) {
+				System.out.println("ファイルの作成に成功しました");
+				FileWriter filewriter = new FileWriter(newfile1);
+				filewriter.write("create file : ");
+				filewriter.close();
+			} else {
+				System.out.println("ファイルの作成に失敗しました");
+			}
+		} catch (IOException o) {
+			System.out.println(o);
+		}
+		// ------------------------------------------------------------
+	}
+
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(btnNewButton)) {// newボタンが押されたときのアクション
@@ -215,4 +250,5 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 	public ResultTrace getResultTrace() {
 		return this.resultTrace;
 	}
+
 }

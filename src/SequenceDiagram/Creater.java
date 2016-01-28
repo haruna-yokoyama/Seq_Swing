@@ -19,15 +19,20 @@ import com.sun.jdi.Field;
 import com.sun.jdi.Location;
 import com.sun.jdi.Value;
 
-public class Creater extends JFrame {
+public class Creater extends JFrame{
+
+	// static public SequenceDiagram sequenceDiagram;
 
 	public List<String> declaringType = new ArrayList<>();
 	public List<String> methodName = new ArrayList<>();
 	public List<String> returnType = new ArrayList<>();
 	public List<String> argumentType = new ArrayList<>();
 	public List<Location> lineLocation = new ArrayList<>();
+	List<Location> line = new ArrayList<>();
 	public Field fieldName;
 	public Value valueName;
+
+	public Object cell;
 
 	public List<Node> nodes = new ArrayList<>();
 	public List<Connector> connectors = new ArrayList<>();
@@ -129,12 +134,12 @@ public class Creater extends JFrame {
 		mxGraph mxgraph = new mxGraph();
 		// mxGraphComponent graphComponent = new mxGraphComponent(mxgraph);
 		getContentPane().add(graph);
-		graph.getGraphControl().addMouseListener(new MouseAdapter() {
-			// clickedEvent clicked = new clickedEvent();
-			public void mouseReleased(MouseEvent ev) {
-				pushEvent(ev, graph, mxgraph);
-			}
-		});
+		graph.getGraphControl().addMouseListener(new MyMouseAdapter(graph, mxgraph));// {
+		// clickedEvent clicked = new clickedEvent();
+		// public void mouseReleased(MouseEvent ev) {
+		// pushEvent(ev, graph, mxgraph);
+		// }
+		// });
 		// -----------------------
 
 		JFrame frame = new JFrame();
@@ -144,28 +149,68 @@ public class Creater extends JFrame {
 		frame.setVisible(true);
 	}
 
-	public void pushEvent(MouseEvent ev, mxGraphComponent graph, mxGraph mxgraph) {
-		Object cell = graph.getCellAt(ev.getX(), ev.getY());
-		List<Object> cells = new ArrayList<>();
-		List<Location> line = new ArrayList<>();
-		for (int i = 0; i < ev.getClickCount(); i++) {
-			if (cell != null) {
-				System.out.println("clicked:" + mxgraph.getLabel(cell));
+	//内部クラス
+	class MyMouseAdapter extends MouseAdapter {
+		private mxGraphComponent graph;
+		private mxGraph mxgraph;
 
-				if (map3.containsKey(methodName)) {
-					cells.add(cell);
-					line = map3.get(methodName);
-					Filehandler fileHandler = new Filehandler();
-					fileHandler = line;
-					//どうやったらlineをfilehandlerに渡せるか？
+		public MyMouseAdapter(mxGraphComponent graph, mxGraph mxgraph) {
+			this.graph = graph;
+			this.mxgraph = mxgraph;
+			// TODO 自動生成されたコンストラクター・スタブ
+		}
+
+		public void mouseReleased(MouseEvent ev) {
+			//mxGraphComponent graph;// = writeseq.createGraphComponent();;
+			Object cell = graph.getCellAt(ev.getX(), ev.getY());
+			List<Object> cells = new ArrayList<>();
+			// List<Location> line = new ArrayList<>();
+			for (int i = 0; i < ev.getClickCount(); i++) {
+				if (cell != null) {
+					//mxGraph mxgraph = new mxGraph();;
+					System.out.println("clicked:" + mxgraph.getLabel(cell));
+					if (map3.containsKey(methodName)) {
+						cells.add(cell);
+						line = map3.get(methodName);
+						// getPushEvent(line);
+						// SequenceDiagram seq = new SequenceDiagram();
+						// seq.giveColor();
+						// fileHandler = line;
+						// どうやったらlineをfilehandlerに渡せるか？
+						// sequenceDiagram.getGiveColor();
 					}
 				}
-
+				keepData(declaringType, methodName, returnType, argumentType,
+						lineLocation, fieldName, valueName, nodes, cell, cells);
+			}
 		}
-		keepData(declaringType, methodName, returnType, argumentType,
-				lineLocation, fieldName, valueName, nodes, cell, cells);
-
 	}
+
+	// public void pushEvent(MouseEvent ev, mxGraphComponent graph, mxGraph mxgraph) {
+	// Object cell = graph.getCellAt(ev.getX(), ev.getY());
+	// List<Object> cells = new ArrayList<>();
+	// //List<Location> line = new ArrayList<>();
+	// for (int i = 0; i < ev.getClickCount(); i++) {
+	// if (cell != null) {
+	// System.out.println("clicked:" + mxgraph.getLabel(cell));
+	// if (map3.containsKey(methodName)) {
+	// cells.add(cell);
+	// line = map3.get(methodName);
+	// //getPushEvent(line);
+	// // SequenceDiagram seq = new SequenceDiagram();
+	// // seq.giveColor();
+	// //fileHandler = line;
+	// //どうやったらlineをfilehandlerに渡せるか？
+	// //sequenceDiagram.getGiveColor();
+	// }
+	// }
+	// }
+	// keepData(declaringType, methodName, returnType, argumentType,
+	// lineLocation, fieldName, valueName, nodes, cell, cells);
+	// }
+	// public static Creater getPushEvent(List<Location> line){
+	// return getPushEvent(line);
+	// }
 
 	// 「→」のconnectorを作るメソッド
 	public List<Connector> fromConnector(List<Node> node, int index, int index1) {
