@@ -19,7 +19,7 @@ import com.sun.jdi.Field;
 import com.sun.jdi.Location;
 import com.sun.jdi.Value;
 
-public class Creater extends JFrame{
+public class Creater extends JFrame {
 
 	// static public SequenceDiagram sequenceDiagram;
 
@@ -137,7 +137,9 @@ public class Creater extends JFrame{
 		mxGraph mxgraph = new mxGraph();
 		// mxGraphComponent graphComponent = new mxGraphComponent(mxgraph);
 		getContentPane().add(graph);
-		graph.getGraphControl().addMouseListener(new MyMouseAdapter(graph, mxgraph));// {
+		graph.getGraphControl().addMouseListener(new MyMouseAdapter(graph, mxgraph));
+		//graph.getGraphControl().addMouseListener(new MyMouseAdapter(graph, mxgraph));
+
 		// clickedEvent clicked = new clickedEvent();
 		// public void mouseReleased(MouseEvent ev) {
 		// pushEvent(ev, graph, mxgraph);
@@ -152,7 +154,7 @@ public class Creater extends JFrame{
 		frame.setVisible(true);
 	}
 
-	//内部クラス
+	// 内部クラス
 	class MyMouseAdapter extends MouseAdapter {
 		private mxGraphComponent graph;
 		private mxGraph mxgraph;
@@ -160,37 +162,59 @@ public class Creater extends JFrame{
 		public MyMouseAdapter(mxGraphComponent graph, mxGraph mxgraph) {
 			this.graph = graph;
 			this.mxgraph = mxgraph;
-			// TODO 自動生成されたコンストラクター・スタブ
 		}
 
-		public void mouseReleased(MouseEvent ev) {
-			//mxGraphComponent graph;// = writeseq.createGraphComponent();;
+		public void mousePressed(MouseEvent ev) {
+			// mxGraphComponent graph;// = writeseq.createGraphComponent();;
 			Object cell = graph.getCellAt(ev.getX(), ev.getY());
 			List<Object> cells = new ArrayList<>();
 			// List<Location> line = new ArrayList<>();
-			for (int i = 0; i < ev.getClickCount(); i++) {
+			// for (int i = 0; i < ev.getClickCount(); i++) {
+			//while (true) {
+			//List<Location> line = null;
+
 				if (cell != null) {
-					//mxGraph mxgraph = new mxGraph();;
+					// mxGraph mxgraph = new mxGraph();;
 					System.out.println("clicked:" + mxgraph.getLabel(cell));
 					if (map3.containsKey(methodName)) {
-						cells.add(cell);
-						line = map3.get(methodName);
-						sequenceDiagram.giveColor(cell);
+						//int index = map3.get(methodName).indexOf(cell);
+						// cells.add(cell);
+
+						List<Location> line = map3.get(methodName);//.indexOf(cell);
+
+						sequenceDiagram.giveColor(cell, line);
 						// getPushEvent(line);
 						// SequenceDiagram seq = new SequenceDiagram();
 						// seq.giveColor();
 						// fileHandler = line;
 						// どうやったらlineをfilehandlerに渡せるか？
 						// sequenceDiagram.getGiveColor();
+						keepData(declaringType, methodName, returnType, argumentType,
+								lineLocation, fieldName, valueName, nodes, cell, line);
 					}
+
 				}
-				keepData(declaringType, methodName, returnType, argumentType,
-						lineLocation, fieldName, valueName, nodes, cell, cells);
-			}
+
+//this.mousePressed(ev);
+				// this.reStart();
+				// this.waiting();
+			//}
 		}
+
+
+//		}
+		// synchronized public void waiting(){
+		// try {
+		// wait();
+		// } catch (InterruptedException e) {
+		// // TODO 自動生成された catch ブロック
+		// e.printStackTrace();
+		// }
+		// }
 	}
 
-	// public void pushEvent(MouseEvent ev, mxGraphComponent graph, mxGraph mxgraph) {
+	// public void pushEvent(MouseEvent ev, mxGraphComponent graph, mxGraph
+	// mxgraph) {
 	// Object cell = graph.getCellAt(ev.getX(), ev.getY());
 	// List<Object> cells = new ArrayList<>();
 	// //List<Location> line = new ArrayList<>();
@@ -272,7 +296,7 @@ public class Creater extends JFrame{
 	void keepData(List<String> declaringType, List<String> methodName,
 			List<String> returnType, List<String> argumentType,
 			List<Location> lineLocation, Field field, Value value,
-			List<Node> nodes, Object cell, List<Object> cells) {
+			List<Node> nodes, Object cell, List<Location> line) {
 		File newfile = new File("C:\\Users\\cs12097\\Desktop\\cccccc.txt");
 		try {
 			if (newfile.createNewFile()) {
@@ -292,7 +316,7 @@ public class Creater extends JFrame{
 				filewriter.write(fieldName + ",");
 				filewriter.write(nodes + "");
 				filewriter.write(cell + "");
-				filewriter.write(cells + "");
+				filewriter.write(line + "");
 				filewriter.close();
 			} else {
 				System.out.println("ファイルの作成に失敗しました");

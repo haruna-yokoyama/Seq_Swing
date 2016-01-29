@@ -31,7 +31,6 @@ import com.sun.tools.example.trace.Trace;
 public class SequenceDiagram extends JFrame implements ActionListener {
 
 	static public ResultTrace resultTrace;
-	static public Creater pushEvent;
 
 	private JPanel contentPane;
 	private JFrame frame;
@@ -49,11 +48,11 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 	private Field fieldName;
 	private Value valueName;
 
-	Trace trace;
+	public Trace trace;
+	public Creater creater;
+
 	static String str;
 	static String[] argss;
-
-	Creater creater;
 
 	/**
 	 * Launch the application.
@@ -119,38 +118,6 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 		button.addActionListener(this);
 
 		getContentPane().add(button);
-	}
-
-	// 色を付けるメソッド
-	public void giveColor(Object cell) {
-		mxGraph mxgraph = new mxGraph();
-		mxGraphComponent graph = new mxGraphComponent(mxgraph);
-		//Creater creater = new Creater();
-		MyMouseAdapter mouseAdapter = creater.new MyMouseAdapter(graph, mxgraph);
-		// MouseEvent ev = null;
-		// MouseEvent ev = this.addMouseListener(mouseAdapter);
-		// if (e.getSource().equals(btnNewButton))
-		//if (ev.getSource().equals(getMouseListeners())) {
-			//mouseAdapter.mouseReleased(null);
-			textArea.setSelectionColor(Color.YELLOW);
-
-			// -------------------------------------------------
-			File newfile1 = new File("C:\\Users\\cs12097\\Desktop\\ddddddd.txt");
-			try {
-				if (newfile1.createNewFile()) {
-					System.out.println("ファイルの作成に成功しました");
-					FileWriter filewriter = new FileWriter(newfile1);
-					filewriter.write("create file : " + cell);
-					filewriter.close();
-				} else {
-					System.out.println("ファイルの作成に失敗しました");
-				}
-			} catch (IOException o) {
-				System.out.println(o);
-			}
-			// ------------------------------------------------------------
-
-		//}
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -221,7 +188,6 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 
 			inputList inputlist = new inputList(e); // ソースコードをListに格納
 			readCSV readcsv = new readCSV(e); // トレース情報をCSVファイルに保存、Listにも格納
-
 			System.out.println("5=======resultTrace========");
 
 			// -------------------------------------------------
@@ -249,14 +215,36 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 			}
 			// ------------------------------------------------------------
 			creater = new Creater(this); // シーケンス図作成
-
 		}
-		//clickedEvent click = new clickedEvent();
-//		MouseEvent ev = null;
-//		if (e.getSource().equals(getMouseMotionListeners())) {
-//			giveColor(ev);
-//		}
 	}
+
+	// 色を付けるメソッド
+		public void giveColor(Object cell, List<Location> line) {
+			mxGraph mxgraph = new mxGraph();
+			mxGraphComponent graph = new mxGraphComponent(mxgraph);
+			MyMouseAdapter mouseAdapter = creater.new MyMouseAdapter(graph, mxgraph);
+			// if (e.getSource().equals(btnNewButton))
+			//if (ev.getSource().equals(getMouseListeners())) {
+				//mouseAdapter.mouseReleased(null);
+				textArea.setSelectionColor(Color.YELLOW);
+
+				// -------------------------------------------------
+				File newfile1 = new File("C:\\Users\\cs12097\\Desktop\\ddddddd.txt");
+				try {
+					if (newfile1.createNewFile()) {
+						System.out.println("ファイルの作成に成功しました");
+						FileWriter filewriter = new FileWriter(newfile1);
+						filewriter.write("create file : " + cell +" : " + line);
+						filewriter.close();
+					} else {
+						System.out.println("ファイルの作成に失敗しました");
+					}
+				} catch (IOException o) {
+					System.out.println(o);
+				}
+				// ------------------------------------------------------------
+			//}
+		}
 
 	public ResultTrace getResultTrace() {
 		return this.resultTrace;
