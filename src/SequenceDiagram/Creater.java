@@ -43,7 +43,10 @@ public class Creater extends JFrame{
 	Map<List<String>, List<Location>> map3 = new HashMap<>();
 	Map<List<String>, List<String>> map4 = new HashMap<>();
 
-	public Creater() {
+	public SequenceDiagram sequenceDiagram;
+
+	public Creater(SequenceDiagram sequenceDiagram) {
+		this.sequenceDiagram = sequenceDiagram;
 		createDiagram();
 	}
 
@@ -172,6 +175,7 @@ public class Creater extends JFrame{
 					if (map3.containsKey(methodName)) {
 						cells.add(cell);
 						line = map3.get(methodName);
+						sequenceDiagram.giveColor(cell);
 						// getPushEvent(line);
 						// SequenceDiagram seq = new SequenceDiagram();
 						// seq.giveColor();
