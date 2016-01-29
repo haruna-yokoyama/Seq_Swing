@@ -16,8 +16,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 import SequenceDiagram.Creater.MyMouseAdapter;
 
@@ -37,7 +40,8 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 	private JButton btnNewButton;
 	private JButton button;
 	private JLabel lblNewLabel;
-	public JTextArea textArea;
+	// private JTextArea textArea;
+	private JTextPane textPane;
 
 	private List<String> declaringType = new ArrayList<>();
 	private List<String> methodName = new ArrayList<>();
@@ -90,7 +94,8 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 		getContentPane().add(lblNewLabel);
 
 		btnNewButton = new JButton("開く"); // 「開く」ボタン
-		textArea = new JTextArea();
+		// textArea = new JTextArea();
+		textPane = new JTextPane();
 
 		btnNewButton.setBounds(12, 33, 91, 21);
 		// btnNewButton.setAction(action);
@@ -103,9 +108,12 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 		contentPane.add(scrollPane);
 
 		// JTextArea textArea = new JTextArea();
-		textArea.setWrapStyleWord(true);
-		textArea.setLineWrap(true);
-		scrollPane.setViewportView(textArea);
+		// textArea.setWrapStyleWord(true);
+		// textArea.setLineWrap(true);
+		// scrollPane.setViewportView(textArea);
+		// textPane.setWrapStyleWord(true);
+		// textPane.setLineWrap(true);
+		scrollPane.setViewportView(textPane);
 
 		String[] tracePrograms = { "HelloWorld" };
 		System.out.println("iiiiiiiiiiiiiiiiiii");
@@ -127,7 +135,10 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 			if (selected == JFileChooser.APPROVE_OPTION) {
 				File file = filechooser.getSelectedFile();
 				lblNewLabel.setText(file.getName());
-				textArea.setText(Filehandler.read(file.getPath())); // ファイルの中身を表示
+				// textArea.setText(Filehandler.read(file.getPath())); //
+				// ファイルの中身を表示
+				textPane.setText(Filehandler.read(file.getPath())); // ファイルの中身を表示
+
 			}
 			getContentPane().add(lblNewLabel);
 			getContentPane().add(btnNewButton);
@@ -219,32 +230,85 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 	}
 
 	// 色を付けるメソッド
-		public void giveColor(Object cell, List<Location> line) {
-			mxGraph mxgraph = new mxGraph();
-			mxGraphComponent graph = new mxGraphComponent(mxgraph);
-			MyMouseAdapter mouseAdapter = creater.new MyMouseAdapter(graph, mxgraph);
-			// if (e.getSource().equals(btnNewButton))
-			//if (ev.getSource().equals(getMouseListeners())) {
-				//mouseAdapter.mouseReleased(null);
-				textArea.setSelectionColor(Color.YELLOW);
+	public void giveColor(String cell, List<Location> line, List<String> methodName) {
+		mxGraph mxgraph = new mxGraph();
+		mxGraphComponent graph = new mxGraphComponent(mxgraph);
+		MyMouseAdapter mouseAdapter = creater.new MyMouseAdapter(graph, mxgraph);
 
-				// -------------------------------------------------
-				File newfile1 = new File("C:\\Users\\cs12097\\Desktop\\ddddddd.txt");
-				try {
-					if (newfile1.createNewFile()) {
-						System.out.println("ファイルの作成に成功しました");
-						FileWriter filewriter = new FileWriter(newfile1);
-						filewriter.write("create file : " + cell +" : " + line);
-						filewriter.close();
-					} else {
-						System.out.println("ファイルの作成に失敗しました");
-					}
-				} catch (IOException o) {
-					System.out.println(o);
+		String text = textPane.getText();
+		StyledDocument doc = (StyledDocument) textPane.getDocument();
+		String[] number = { "main", "new HelloWorld();", "hello();", "calclator();", "calclate();" };
+
+		//全ての属性を消す
+		SimpleAttributeSet plane = new SimpleAttributeSet();
+		doc.setCharacterAttributes(0, text.length(), plane, true);
+
+		SimpleAttributeSet attr = new SimpleAttributeSet(); // キーワードを強調表示
+		StyleConstants.setBackground(attr, Color.YELLOW); // 背景の色
+		for (int i = 0; i < number.length; i++) {
+			if (cell.equals("main")) {
+				//String num = number[0];
+				String num = methodName.get(0);
+				int pos = text.indexOf(num);
+				while (pos != -1) {
+					doc.setCharacterAttributes(pos, num.length(), attr, true);
+					pos = text.indexOf(num, pos + num.length());
 				}
-				// ------------------------------------------------------------
-			//}
+			}
+			if (cell.equals("<init>")) {
+				//String num = number[0];
+				String num = methodName.get(1);
+				int pos = text.indexOf(num);
+				while (pos != -1) {
+					doc.setCharacterAttributes(pos, num.length(), attr, true);
+					pos = text.indexOf(num, pos + num.length());
+				}
+			}
+			if(cell.equals("hello")) {
+				//String num = number[1];
+				String num = methodName.get(2);
+				int pos = text.indexOf(num);
+				while (pos != -1) {
+					doc.setCharacterAttributes(pos, num.length(), attr, true);
+					pos = text.indexOf(num, pos + num.length());
+				}
+			}
+			if(cell.equals("calclator")) {
+				//String num = number[2];
+				String num = methodName.get(3);
+				int pos = text.indexOf(num);
+				while (pos != -1) {
+					doc.setCharacterAttributes(pos, num.length(), attr, true);
+					pos = text.indexOf(num, pos + num.length());
+				}
+			}
+			if(cell.equals("calclate")) {
+				//String num = number[3];
+				String num = methodName.get(4);
+				int pos = text.indexOf(num);
+				while (pos != -1) {
+					doc.setCharacterAttributes(pos, num.length(), attr, true);
+					pos = text.indexOf(num, pos + num.length());
+				}
+			}
 		}
+
+		// -------------------------------------------------
+		File newfile1 = new File("C:\\Users\\cs12097\\Desktop\\ddddddd.txt");
+		try {
+			if (newfile1.createNewFile()) {
+				System.out.println("ファイルの作成に成功しました");
+				FileWriter filewriter = new FileWriter(newfile1);
+				filewriter.write("create file : " + cell + " : " + line);
+				filewriter.close();
+			} else {
+				System.out.println("ファイルの作成に失敗しました");
+			}
+		} catch (IOException o) {
+			System.out.println(o);
+		}
+		// ------------------------------------------------------------
+	}
 
 	public ResultTrace getResultTrace() {
 		return this.resultTrace;

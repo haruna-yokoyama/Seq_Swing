@@ -133,6 +133,7 @@ public class Creater extends JFrame {
 		writeSeq writeseq = new writeSeq(connectors);
 		mxGraphComponent graph = writeseq.createGraphComponent();
 
+
 		// マウスイベント-----------------------
 		mxGraph mxgraph = new mxGraph();
 		// mxGraphComponent graphComponent = new mxGraphComponent(mxgraph);
@@ -176,13 +177,14 @@ public class Creater extends JFrame {
 				if (cell != null) {
 					// mxGraph mxgraph = new mxGraph();;
 					System.out.println("clicked:" + mxgraph.getLabel(cell));
+					String str = mxgraph.getLabel(cell);
 					if (map3.containsKey(methodName)) {
 						//int index = map3.get(methodName).indexOf(cell);
 						// cells.add(cell);
 
 						List<Location> line = map3.get(methodName);//.indexOf(cell);
 
-						sequenceDiagram.giveColor(cell, line);
+						sequenceDiagram.giveColor(str, line, methodName);
 						// getPushEvent(line);
 						// SequenceDiagram seq = new SequenceDiagram();
 						// seq.giveColor();
@@ -190,8 +192,10 @@ public class Creater extends JFrame {
 						// どうやったらlineをfilehandlerに渡せるか？
 						// sequenceDiagram.getGiveColor();
 						keepData(declaringType, methodName, returnType, argumentType,
-								lineLocation, fieldName, valueName, nodes, cell, line);
+								lineLocation, fieldName, valueName, nodes, str, line);
 					}
+					//repaint();
+					//requestFocus();
 
 				}
 
@@ -296,7 +300,7 @@ public class Creater extends JFrame {
 	void keepData(List<String> declaringType, List<String> methodName,
 			List<String> returnType, List<String> argumentType,
 			List<Location> lineLocation, Field field, Value value,
-			List<Node> nodes, Object cell, List<Location> line) {
+			List<Node> nodes, String str, List<Location> line) {
 		File newfile = new File("C:\\Users\\cs12097\\Desktop\\cccccc.txt");
 		try {
 			if (newfile.createNewFile()) {
@@ -315,7 +319,7 @@ public class Creater extends JFrame {
 				filewriter.write(valueName + ",");
 				filewriter.write(fieldName + ",");
 				filewriter.write(nodes + "");
-				filewriter.write(cell + "");
+				filewriter.write(str + "");
 				filewriter.write(line + "");
 				filewriter.close();
 			} else {
