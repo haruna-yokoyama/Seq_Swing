@@ -12,6 +12,7 @@ import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.view.mxGraph;
@@ -165,84 +166,56 @@ public class Creater extends JFrame {
 			this.mxgraph = mxgraph;
 		}
 
-		public void mousePressed(MouseEvent ev) {
-			// mxGraphComponent graph;// = writeseq.createGraphComponent();;
-			Object cell = graph.getCellAt(ev.getX(), ev.getY());
+		public void mouseClicked(MouseEvent ev) {
+			Object cell = graph.getCellAt(ev.getX(), ev.getY());        //座標を取得
+			String str = mxgraph.getLabel(cell);						 //cellの内容を取得
 			List<Object> cells = new ArrayList<>();
-			// List<Location> line = new ArrayList<>();
-			// for (int i = 0; i < ev.getClickCount(); i++) {
-			//while (true) {
-			//List<Location> line = null;
-
-				if (cell != null) {
-					// mxGraph mxgraph = new mxGraph();;
+			boolean right = SwingUtilities.isRightMouseButton(ev);  //右クリック
+			boolean left = SwingUtilities.isLeftMouseButton(ev);    //左クリック
+				if (cell != null  || left == true) {
 					System.out.println("clicked:" + mxgraph.getLabel(cell));
-					String str = mxgraph.getLabel(cell);
 					if (map3.containsKey(methodName)) {
-						//int index = map3.get(methodName).indexOf(cell);
-						// cells.add(cell);
-
-						List<Location> line = map3.get(methodName);//.indexOf(cell);
-
+						List<Location> line = map3.get(methodName);
 						sequenceDiagram.giveColor(str, line, methodName);
-						// getPushEvent(line);
-						// SequenceDiagram seq = new SequenceDiagram();
-						// seq.giveColor();
-						// fileHandler = line;
-						// どうやったらlineをfilehandlerに渡せるか？
-						// sequenceDiagram.getGiveColor();
+
 						keepData(declaringType, methodName, returnType, argumentType,
 								lineLocation, fieldName, valueName, nodes, str, line);
 					}
-					//repaint();
-					//requestFocus();
+				}
+				if(cell != null || right == true){
+					List<String> returntype = map2.get(methodName);
+					List<String> argument = map4.get(returnType);
 
+					File newfile = new File("C:\\Users\\cs12097\\Desktop\\eeeeee.txt");
+					try {
+						if (newfile.createNewFile()) {
+							System.out.println("ファイルの作成に成功しました");
+							FileWriter filewriter = new FileWriter(newfile);
+
+							filewriter.write("returntype : " + returntype + "  ");
+							filewriter.write("argumenttype : " + argument + "  ");
+							filewriter.close();
+						} else {
+							System.out.println("ファイルの作成に失敗しました");
+						}
+					} catch (IOException o) {
+						System.out.println(o);
+					}
 				}
 
-//this.mousePressed(ev);
-				// this.reStart();
-				// this.waiting();
-			//}
 		}
-
-
+//		public void mouseClicked(MouseEvent ev){
+//			boolean right = SwingUtilities.isRightMouseButton(ev);
+//			Object cell = gra
+//			if(right == true){
+//				List<String> returntype = map2.get(methodName);
+//				List<String> argument = map4.get(methodName);
+//			}
 //		}
-		// synchronized public void waiting(){
-		// try {
-		// wait();
-		// } catch (InterruptedException e) {
-		// // TODO 自動生成された catch ブロック
-		// e.printStackTrace();
-		// }
-		// }
+
+
 	}
 
-	// public void pushEvent(MouseEvent ev, mxGraphComponent graph, mxGraph
-	// mxgraph) {
-	// Object cell = graph.getCellAt(ev.getX(), ev.getY());
-	// List<Object> cells = new ArrayList<>();
-	// //List<Location> line = new ArrayList<>();
-	// for (int i = 0; i < ev.getClickCount(); i++) {
-	// if (cell != null) {
-	// System.out.println("clicked:" + mxgraph.getLabel(cell));
-	// if (map3.containsKey(methodName)) {
-	// cells.add(cell);
-	// line = map3.get(methodName);
-	// //getPushEvent(line);
-	// // SequenceDiagram seq = new SequenceDiagram();
-	// // seq.giveColor();
-	// //fileHandler = line;
-	// //どうやったらlineをfilehandlerに渡せるか？
-	// //sequenceDiagram.getGiveColor();
-	// }
-	// }
-	// }
-	// keepData(declaringType, methodName, returnType, argumentType,
-	// lineLocation, fieldName, valueName, nodes, cell, cells);
-	// }
-	// public static Creater getPushEvent(List<Location> line){
-	// return getPushEvent(line);
-	// }
 
 	// 「→」のconnectorを作るメソッド
 	public List<Connector> fromConnector(List<Node> node, int index, int index1) {
