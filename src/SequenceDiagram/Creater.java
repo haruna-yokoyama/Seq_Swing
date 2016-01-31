@@ -22,8 +22,6 @@ import com.sun.jdi.Value;
 
 public class Creater extends JFrame {
 
-	// static public SequenceDiagram sequenceDiagram;
-
 	public List<String> declaringType = new ArrayList<>();
 	public List<String> methodName = new ArrayList<>();
 	public List<String> returnType = new ArrayList<>();
@@ -134,13 +132,14 @@ public class Creater extends JFrame {
 		writeSeq writeseq = new writeSeq(connectors);
 		mxGraphComponent graph = writeseq.createGraphComponent();
 
-
 		// マウスイベント-----------------------
 		mxGraph mxgraph = new mxGraph();
 		// mxGraphComponent graphComponent = new mxGraphComponent(mxgraph);
 		getContentPane().add(graph);
-		graph.getGraphControl().addMouseListener(new MyMouseAdapter(graph, mxgraph));
-		//graph.getGraphControl().addMouseListener(new MyMouseAdapter(graph, mxgraph));
+		graph.getGraphControl().addMouseListener(
+				new MyMouseAdapter(graph, mxgraph));
+		// graph.getGraphControl().addMouseListener(new MyMouseAdapter(graph,
+		// mxgraph));
 
 		// clickedEvent clicked = new clickedEvent();
 		// public void mouseReleased(MouseEvent ev) {
@@ -167,55 +166,56 @@ public class Creater extends JFrame {
 		}
 
 		public void mouseClicked(MouseEvent ev) {
-			Object cell = graph.getCellAt(ev.getX(), ev.getY());        //座標を取得
-			String str = mxgraph.getLabel(cell);						 //cellの内容を取得
+			Object cell = graph.getCellAt(ev.getX(), ev.getY()); // 座標を取得
+			String str = mxgraph.getLabel(cell); // cellの内容を取得
 			List<Object> cells = new ArrayList<>();
-			boolean right = SwingUtilities.isRightMouseButton(ev);  //右クリック
-			boolean left = SwingUtilities.isLeftMouseButton(ev);    //左クリック
-				if (cell != null  || left == true) {
-					System.out.println("clicked:" + mxgraph.getLabel(cell));
-					if (map3.containsKey(methodName)) {
-						List<Location> line = map3.get(methodName);
-						sequenceDiagram.giveColor(str, line, methodName);
+			boolean right = SwingUtilities.isRightMouseButton(ev); // 右クリック
+			boolean left = SwingUtilities.isLeftMouseButton(ev); // 左クリック
+			if (cell != null || left == true) {
+				System.out.println("clicked:" + mxgraph.getLabel(cell));
+				if (map3.containsKey(methodName)) {
+					List<Location> line = map3.get(methodName);
+					sequenceDiagram.giveColor(str, line, methodName);
 
-						keepData(declaringType, methodName, returnType, argumentType,
-								lineLocation, fieldName, valueName, nodes, str, line);
-					}
+					keepData(declaringType, methodName, returnType,
+							argumentType, lineLocation, fieldName, valueName,
+							nodes, str, line);
 				}
-				if(cell != null || right == true){
-					List<String> returntype = map2.get(methodName);
-					List<String> argument = map4.get(returnType);
+			}
+			if (cell != null || right == true) {
+				List<String> returntype = map2.get(methodName);
+				List<String> argument = map4.get(returnType);
 
-					File newfile = new File("C:\\Users\\cs12097\\Desktop\\eeeeee.txt");
-					try {
-						if (newfile.createNewFile()) {
-							System.out.println("ファイルの作成に成功しました");
-							FileWriter filewriter = new FileWriter(newfile);
+				createRectangle(returntype, argument);
+				File newfile = new File(
+						"C:\\Users\\cs12097\\Desktop\\eeeeee.txt");
+				try {
+					if (newfile.createNewFile()) {
+						System.out.println("ファイルの作成に成功しました");
+						FileWriter filewriter = new FileWriter(newfile);
 
-							filewriter.write("returntype : " + returntype + "  ");
-							filewriter.write("argumenttype : " + argument + "  ");
-							filewriter.close();
-						} else {
-							System.out.println("ファイルの作成に失敗しました");
-						}
-					} catch (IOException o) {
-						System.out.println(o);
+						filewriter.write("returntype : " + returntype + "  ");
+						filewriter.write("argumenttype : " + argument + "  ");
+						filewriter.close();
+					} else {
+						System.out.println("ファイルの作成に失敗しました");
 					}
+				} catch (IOException o) {
+					System.out.println(o);
 				}
-
+			}
 		}
-//		public void mouseClicked(MouseEvent ev){
-//			boolean right = SwingUtilities.isRightMouseButton(ev);
-//			Object cell = gra
-//			if(right == true){
-//				List<String> returntype = map2.get(methodName);
-//				List<String> argument = map4.get(methodName);
-//			}
-//		}
 
-
+		private void createRectangle(List<String> returntype,	List<String> argument) {
+			// TODO 自動生成されたメソッド・スタブ
+			//String shape = mxConstants.STYLE_SHAPE;
+			Object rec = mxgraph.getDefaultParent();// mxConstants.SHAPE_RECTANGLE;
+													// //四角形を作る
+			String Return = returntype.get(0);
+			String arg = argument.get(0);
+			mxgraph.insertVertex(rec, null, "return", 20, 20, 50, 30);
+		}
 	}
-
 
 	// 「→」のconnectorを作るメソッド
 	public List<Connector> fromConnector(List<Node> node, int index, int index1) {

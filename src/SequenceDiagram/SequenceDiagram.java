@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.SimpleAttributeSet;
@@ -40,7 +41,7 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 	private JButton btnNewButton;
 	private JButton button;
 	private JLabel lblNewLabel;
-	// private JTextArea textArea;
+	private JTextArea textArea;
 	private JTextPane textPane;
 
 	private List<String> declaringType = new ArrayList<>();
@@ -82,7 +83,7 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 	private void initialize() {
 
 		contentPane = new JPanel();
-		setBounds(100, 100, 600, 900);
+		setBounds(100, 100, 500, 700);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -94,22 +95,24 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 		getContentPane().add(lblNewLabel);
 
 		btnNewButton = new JButton("開く"); // 「開く」ボタン
-		// textArea = new JTextArea();
-		textPane = new JTextPane();
+	//	 textArea = new JTextArea();
+	textPane = new JTextPane();
 
-		btnNewButton.setBounds(12, 33, 91, 21);
+		//setLayout(new FlowLayout());
+
+		btnNewButton.setBounds(12, 33, 60, 20);
 		// btnNewButton.setAction(action);
 		btnNewButton.addActionListener(this);
 
 		getContentPane().add(btnNewButton);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 64, 482, 500);
+		scrollPane.setBounds(12, 64, 400, 500);
 		contentPane.add(scrollPane);
 
 		// JTextArea textArea = new JTextArea();
 		// textArea.setWrapStyleWord(true);
-		// textArea.setLineWrap(true);
+		 //textArea.setLineWrap(true);
 		// scrollPane.setViewportView(textArea);
 		// textPane.setWrapStyleWord(true);
 		// textPane.setLineWrap(true);
@@ -135,9 +138,8 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 			if (selected == JFileChooser.APPROVE_OPTION) {
 				File file = filechooser.getSelectedFile();
 				lblNewLabel.setText(file.getName());
-				// textArea.setText(Filehandler.read(file.getPath())); //
-				// ファイルの中身を表示
-				textPane.setText(Filehandler.read(file.getPath())); // ファイルの中身を表示
+				// textArea.setText(Filehandler.read(file.getPath())); //ファイルの中身を表示
+				textPane.setText(FileHandler.read(file.getPath())); // ファイルの中身を表示
 
 			}
 			getContentPane().add(lblNewLabel);

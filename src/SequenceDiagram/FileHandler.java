@@ -9,7 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class Filehandler {
+public class FileHandler {
 
 	public static String read(String path) {
 		BufferedReader br;
@@ -33,7 +33,6 @@ public class Filehandler {
 	}
 
 	public static void write(String path, String text) {
-
 		try {
 			File file = new File(path);
 			PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(
@@ -44,16 +43,5 @@ public class Filehandler {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		//MouseEvent ev = null;
-		//showSourceCode(ev);
 	}
-
-//	public static void showSourceCode(MouseEvent ev){
-//		Creater creater = new Creater();
-//		creater.pushEvent(ev, graph, mxgraph);
-//
-//	}
-
-
 }
