@@ -1,6 +1,7 @@
 package SequenceDiagram;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,6 +16,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
@@ -43,6 +45,8 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 	private JLabel lblNewLabel;
 	private JTextArea textArea;
 	private JTextPane textPane;
+	private Component component;
+	JPopupMenu popup;
 
 	private List<String> declaringType = new ArrayList<>();
 	private List<String> methodName = new ArrayList<>();
@@ -114,8 +118,7 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 		// textArea.setWrapStyleWord(true);
 		 //textArea.setLineWrap(true);
 		// scrollPane.setViewportView(textArea);
-		// textPane.setWrapStyleWord(true);
-		// textPane.setLineWrap(true);
+
 		scrollPane.setViewportView(textPane);
 
 		String[] tracePrograms = { "HelloWorld" };
@@ -235,7 +238,8 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 	public void giveColor(String cell, List<Location> line, List<String> methodName) {
 		mxGraph mxgraph = new mxGraph();
 		mxGraphComponent graph = new mxGraphComponent(mxgraph);
-		MyMouseAdapter mouseAdapter = creater.new MyMouseAdapter(graph, mxgraph);
+
+		MyMouseAdapter mouseAdapter = creater.new MyMouseAdapter(graph, mxgraph, component, popup);
 
 		String text = textPane.getText();
 		StyledDocument doc = (StyledDocument) textPane.getDocument();

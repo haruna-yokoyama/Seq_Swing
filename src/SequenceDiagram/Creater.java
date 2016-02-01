@@ -1,5 +1,6 @@
 package SequenceDiagram;
 
+import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -11,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
@@ -22,6 +25,8 @@ import com.sun.jdi.Value;
 
 public class Creater extends JFrame {
 
+	public SequenceDiagram sequenceDiagram;
+
 	public List<String> declaringType = new ArrayList<>();
 	public List<String> methodName = new ArrayList<>();
 	public List<String> returnType = new ArrayList<>();
@@ -31,7 +36,12 @@ public class Creater extends JFrame {
 	public Field fieldName;
 	public Value valueName;
 
+	public JMenuItem menuItem1, menuItem2;
+	private Component component;
+	JPopupMenu popup;
 	public Object cell;
+	public String retType;
+	public String argType;
 
 	public List<Node> nodes = new ArrayList<>();
 	public List<Connector> connectors = new ArrayList<>();
@@ -41,8 +51,6 @@ public class Creater extends JFrame {
 	Map<List<String>, List<String>> map2 = new HashMap<>();
 	Map<List<String>, List<Location>> map3 = new HashMap<>();
 	Map<List<String>, List<String>> map4 = new HashMap<>();
-
-	public SequenceDiagram sequenceDiagram;
 
 	public Creater(SequenceDiagram sequenceDiagram) {
 		this.sequenceDiagram = sequenceDiagram;
@@ -64,9 +72,6 @@ public class Creater extends JFrame {
 		map3.put(methodName, lineLocation);
 		map4.put(returnType, argumentType);
 
-		// List<Connector> connectorList = new ArrayList<Connector>();
-		// Node[] node_array = new Node[10];
-
 		// ここから作図
 		Node tmp_node = new Node();
 		tmp_node.setName(declaringType.get(0) + ":"
@@ -80,8 +85,7 @@ public class Creater extends JFrame {
 
 		fromConnector(nodes, nodes.indexOf(tmp_node), nodes.indexOf(tmp_node1)); //
 
-		// toConnector(nodes, nodes.indexOf(tmp_node),
-		// nodes.indexOf(tmp_node1)); //
+		// toConnector(nodes, nodes.indexOf(tmp_node), nodes.indexOf(tmp_node1)); //
 
 		Node tmp_node2 = new Node();
 		tmp_node2.setName(declaringType.get(2) + ":"
@@ -89,35 +93,30 @@ public class Creater extends JFrame {
 		nodes.add(tmp_node2);
 
 		fromConnector(nodes, nodes.indexOf(tmp_node1), nodes.indexOf(tmp_node2)); //
-		// toConnector(nodes, nodes.indexOf(tmp_node1),
-		// nodes.indexOf(tmp_node2)); //
+		// toConnector(nodes, nodes.indexOf(tmp_node1), nodes.indexOf(tmp_node2)); //
 
 		Node tmp_node3 = new Node();
 		tmp_node3.setName(declaringType.get(3) + ":"
 				+ map1.get(declaringType).get(3));
 		nodes.add(tmp_node3);
 
-		fromConnector(nodes, nodes.indexOf(tmp_node1), nodes.indexOf(tmp_node3)); //
-		// toConnector(nodes, nodes.indexOf(tmp_node1),
-		// nodes.indexOf(tmp_node3)); //
+		fromConnector(nodes, nodes.indexOf(tmp_node1), nodes.indexOf(tmp_node3));
+		// toConnector(nodes, nodes.indexOf(tmp_node1), nodes.indexOf(tmp_node3));
 
 		Node tmp_node4 = new Node();
 		tmp_node4.setName(declaringType.get(4) + ":"
 				+ map1.get(declaringType).get(4));
 		nodes.add(tmp_node4);
 
-		fromConnector(nodes, nodes.indexOf(tmp_node3), nodes.indexOf(tmp_node4)); //
-		toConnector(nodes, nodes.indexOf(tmp_node3), nodes.indexOf(tmp_node4)); //
+		fromConnector(nodes, nodes.indexOf(tmp_node3), nodes.indexOf(tmp_node4));
+		toConnector(nodes, nodes.indexOf(tmp_node3), nodes.indexOf(tmp_node4));
 
 		if (declaringType.get(4).equals(declaringType.get(5))) {
-			fromConnector(nodes, nodes.indexOf(tmp_node3),
-					nodes.indexOf(tmp_node4)); //
-			toConnector(nodes, nodes.indexOf(tmp_node3),
-					nodes.indexOf(tmp_node4)); //
+			fromConnector(nodes, nodes.indexOf(tmp_node3), nodes.indexOf(tmp_node4));
+			toConnector(nodes, nodes.indexOf(tmp_node3), nodes.indexOf(tmp_node4));
 		} else {
 			Node tmp_node5 = new Node();
-			tmp_node5.setName(declaringType.get(5) + ":"
-					+ map1.get(declaringType).get(5));
+			tmp_node5.setName(declaringType.get(5) + ":" + map1.get(declaringType).get(5));
 			nodes.add(tmp_node5);
 
 			fromConnector(nodes, nodes.indexOf(tmp_node4),
@@ -125,27 +124,29 @@ public class Creater extends JFrame {
 			toConnector(nodes, nodes.indexOf(tmp_node4),
 					nodes.indexOf(tmp_node5)); //
 		}
-		toConnector(nodes, nodes.indexOf(tmp_node1), nodes.indexOf(tmp_node3)); //
-		toConnector(nodes, nodes.indexOf(tmp_node1), nodes.indexOf(tmp_node2)); //
-		toConnector(nodes, nodes.indexOf(tmp_node), nodes.indexOf(tmp_node1)); //
+		toConnector(nodes, nodes.indexOf(tmp_node1), nodes.indexOf(tmp_node3));
+		toConnector(nodes, nodes.indexOf(tmp_node1), nodes.indexOf(tmp_node2));
+		toConnector(nodes, nodes.indexOf(tmp_node), nodes.indexOf(tmp_node1));
 
 		writeSeq writeseq = new writeSeq(connectors);
 		mxGraphComponent graph = writeseq.createGraphComponent();
+
+		// 右クリック用のメニューを定義
+		// JMenuItem menuItem1, menuItem2;
+		//menuItem1 = new JMenuItem();
+		//menuItem2 = new JMenuItem();
+
+		// 右クリック時に表示するポップアップを定義
+		JPopupMenu popup = new JPopupMenu();
+		// popup.add(menuItem1);
+		// popup.add(menuItem2);
 
 		// マウスイベント-----------------------
 		mxGraph mxgraph = new mxGraph();
 		// mxGraphComponent graphComponent = new mxGraphComponent(mxgraph);
 		getContentPane().add(graph);
 		graph.getGraphControl().addMouseListener(
-				new MyMouseAdapter(graph, mxgraph));
-		// graph.getGraphControl().addMouseListener(new MyMouseAdapter(graph,
-		// mxgraph));
-
-		// clickedEvent clicked = new clickedEvent();
-		// public void mouseReleased(MouseEvent ev) {
-		// pushEvent(ev, graph, mxgraph);
-		// }
-		// });
+				new MyMouseAdapter(graph, mxgraph, component, popup));
 		// -----------------------
 
 		JFrame frame = new JFrame();
@@ -153,16 +154,25 @@ public class Creater extends JFrame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);
+
+		frame.add(popup);
 	}
 
 	// 内部クラス
 	class MyMouseAdapter extends MouseAdapter {
 		private mxGraphComponent graph;
 		private mxGraph mxgraph;
+		public Component component;
+		JPopupMenu popup;
+		private String retType;
+		private String argType;
 
-		public MyMouseAdapter(mxGraphComponent graph, mxGraph mxgraph) {
+		public MyMouseAdapter(mxGraphComponent graph, mxGraph mxgraph,
+				Component component, JPopupMenu popup) {
 			this.graph = graph;
 			this.mxgraph = mxgraph;
+			this.component = component;
+			this.popup = popup;
 		}
 
 		public void mouseClicked(MouseEvent ev) {
@@ -171,6 +181,7 @@ public class Creater extends JFrame {
 			List<Object> cells = new ArrayList<>();
 			boolean right = SwingUtilities.isRightMouseButton(ev); // 右クリック
 			boolean left = SwingUtilities.isLeftMouseButton(ev); // 左クリック
+
 			if (cell != null || left == true) {
 				System.out.println("clicked:" + mxgraph.getLabel(cell));
 				if (map3.containsKey(methodName)) {
@@ -183,17 +194,18 @@ public class Creater extends JFrame {
 				}
 			}
 			if (cell != null || right == true) {
+				popup.show(component, ev.getX(), ev.getY());// クリックされた位置にポップアップを表示
+
 				List<String> returntype = map2.get(methodName);
 				List<String> argument = map4.get(returnType);
 
-				createRectangle(returntype, argument);
+				createRectangle(ev, str);
 				File newfile = new File(
 						"C:\\Users\\cs12097\\Desktop\\eeeeee.txt");
 				try {
 					if (newfile.createNewFile()) {
 						System.out.println("ファイルの作成に成功しました");
 						FileWriter filewriter = new FileWriter(newfile);
-
 						filewriter.write("returntype : " + returntype + "  ");
 						filewriter.write("argumenttype : " + argument + "  ");
 						filewriter.close();
@@ -206,14 +218,48 @@ public class Creater extends JFrame {
 			}
 		}
 
-		private void createRectangle(List<String> returntype,	List<String> argument) {
-			// TODO 自動生成されたメソッド・スタブ
-			//String shape = mxConstants.STYLE_SHAPE;
-			Object rec = mxgraph.getDefaultParent();// mxConstants.SHAPE_RECTANGLE;
-													// //四角形を作る
-			String Return = returntype.get(0);
-			String arg = argument.get(0);
-			mxgraph.insertVertex(rec, null, "return", 20, 20, 50, 30);
+		private void createRectangle(MouseEvent mv, String str) {
+			JMenuItem menuItem1 = new JMenuItem("返り値の型:" + retType);
+			JMenuItem menuItem2 = new JMenuItem("引数の型:" + argType);
+			// JPopupMenu popup = new JPopupMenu();
+			popup.add(menuItem1);
+			popup.add(menuItem2);
+
+			if (str.equals("HelloWorld:main")) {
+				retType = map2.get(methodName).get(0);
+				argType = map4.get(returnType).get(0);
+			}
+			if (str.equals("HelloWorld:<init>")) {
+				retType = map2.get(methodName).get(1);
+				argType = map4.get(returnType).get(1);
+			}
+			if (str.equals("HelloWorld:hello")) {
+				retType = map2.get(methodName).get(2);
+				argType = map4.get(returnType).get(2);
+			}
+			if (str.equals("HelloWorld:calclator")) {
+				retType = map2.get(methodName).get(3);
+				argType = map4.get(returnType).get(3);
+			}
+			if (str.equals("HelloWorld:calclate")) {
+				retType = map2.get(methodName).get(4);
+				argType = map4.get(returnType).get(4);
+			}
+			File newfile = new File("C:\\Users\\cs12097\\Desktop\\ffffffff.txt");
+			try {
+				if (newfile.createNewFile()) {
+					System.out.println("ファイルの作成に成功しました");
+					FileWriter filewriter = new FileWriter(newfile);
+					filewriter.write("returntype : " + retType + "  ");
+					filewriter.write("argumenttype : " + argType + "  ");
+					filewriter.close();
+				} else {
+					System.out.println("ファイルの作成に失敗しました");
+				}
+			} catch (IOException o) {
+				System.out.println(o);
+			}
+			// return this.retType;
 		}
 	}
 
