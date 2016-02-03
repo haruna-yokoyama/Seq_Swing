@@ -6,8 +6,6 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,7 +85,7 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 	private void initialize() {
 
 		contentPane = new JPanel();
-		setBounds(100, 100, 500, 700);
+		setBounds(700, 0, 690, 720);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -111,7 +109,7 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 		getContentPane().add(btnNewButton);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 64, 400, 500);
+		scrollPane.setBounds(12, 64, 630, 600);
 		contentPane.add(scrollPane);
 
 		// JTextArea textArea = new JTextArea();
@@ -121,7 +119,7 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 
 		scrollPane.setViewportView(textPane);
 
-		String[] tracePrograms = { "HelloWorld" };
+		String[] tracePrograms = { "Sample2" };
 		System.out.println("iiiiiiiiiiiiiiiiiii");
 		trace = new Trace(tracePrograms);
 		System.out.println("uuuuuuuuuuuuuuuuu");
@@ -167,31 +165,6 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 
 			System.out.println("aaaaaaaaaaaaaa : " + declaringType);
 
-			// -------------------------------------------------
-			File newfile1 = new File("C:\\Users\\cs12097\\Desktop\\aaaaaa.txt");
-			try {
-				if (newfile1.createNewFile()) {
-					System.out.println("ファイルの作成に成功しました");
-					FileWriter filewriter = new FileWriter(newfile1);
-					filewriter.write(declaringType + " , ");
-					filewriter.write("\n");
-					filewriter.write(methodName + " , ");
-					filewriter.write("\n");
-					filewriter.write(returnType + " , ");
-					filewriter.write("\n");
-					filewriter.write(argumentType + " , ");
-					filewriter.write("\n");
-					filewriter.write(valueName + ",");
-					filewriter.write(fieldName + ",");
-					filewriter.close();
-				} else {
-					System.out.println("ファイルの作成に失敗しました");
-				}
-			} catch (IOException o) {
-				System.out.println(o);
-			}
-			// ------------------------------------------------------------
-
 			resultTrace = new ResultTrace(); //
 			declaringType = resultTrace.setDeclaringType(declaringType);
 			methodName = resultTrace.setMethodName(methodName);
@@ -206,30 +179,6 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 			readCSV readcsv = new readCSV(e); // トレース情報をCSVファイルに保存、Listにも格納
 			System.out.println("5=======resultTrace========");
 
-			// -------------------------------------------------
-			File newfile = new File("C:\\Users\\cs12097\\Desktop\\bbbbb.txt");
-			try {
-				if (newfile.createNewFile()) {
-					System.out.println("ファイルの作成に成功しました");
-					FileWriter filewriter = new FileWriter(newfile);
-					filewriter.write(declaringType + " , ");
-					filewriter.write("\n");
-					filewriter.write(methodName + " , ");
-					filewriter.write("\n");
-					filewriter.write(returnType + " , ");
-					filewriter.write("\n");
-					filewriter.write(argumentType + " , ");
-					filewriter.write("\n");
-					filewriter.write(valueName + ",");
-					filewriter.write(fieldName + ",");
-					filewriter.close();
-				} else {
-					System.out.println("ファイルの作成に失敗しました");
-				}
-			} catch (IOException o) {
-				System.out.println(o);
-			}
-			// ------------------------------------------------------------
 			creater = new Creater(this); // シーケンス図作成
 		}
 	}
@@ -243,7 +192,7 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 
 		String text = textPane.getText();
 		StyledDocument doc = (StyledDocument) textPane.getDocument();
-		String[] number = { "main", "new HelloWorld();", "hello();", "calclator();", "calclate();" };
+		String[] number = { "main", "todoList", "sport();", "month();" };
 
 		//全ての属性を消す
 		SimpleAttributeSet plane = new SimpleAttributeSet();
@@ -261,7 +210,7 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 					pos = text.indexOf(num, pos + num.length());
 				}
 			}
-			if (cell.equals("<init>")) {
+			if (cell.equals("todoList")) {
 				//String num = number[0];
 				String num = methodName.get(1);
 				int pos = text.indexOf(num);
@@ -270,7 +219,7 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 					pos = text.indexOf(num, pos + num.length());
 				}
 			}
-			if(cell.equals("hello")) {
+			if(cell.equals("Sport")) {
 				//String num = number[1];
 				String num = methodName.get(2);
 				int pos = text.indexOf(num);
@@ -279,7 +228,7 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 					pos = text.indexOf(num, pos + num.length());
 				}
 			}
-			if(cell.equals("calclator")) {
+			if(cell.equals("month")) {
 				//String num = number[2];
 				String num = methodName.get(3);
 				int pos = text.indexOf(num);
@@ -288,32 +237,16 @@ public class SequenceDiagram extends JFrame implements ActionListener {
 					pos = text.indexOf(num, pos + num.length());
 				}
 			}
-			if(cell.equals("calclate")) {
-				//String num = number[3];
-				String num = methodName.get(4);
-				int pos = text.indexOf(num);
-				while (pos != -1) {
-					doc.setCharacterAttributes(pos, num.length(), attr, true);
-					pos = text.indexOf(num, pos + num.length());
-				}
-			}
+//			if(cell.equals("calclate")) {
+//				//String num = number[3];
+//				String num = methodName.get(4);
+//				int pos = text.indexOf(num);
+//				while (pos != -1) {
+//					doc.setCharacterAttributes(pos, num.length(), attr, true);
+//					pos = text.indexOf(num, pos + num.length());
+//				}
+//			}
 		}
-
-		// -------------------------------------------------
-		File newfile1 = new File("C:\\Users\\cs12097\\Desktop\\ddddddd.txt");
-		try {
-			if (newfile1.createNewFile()) {
-				System.out.println("ファイルの作成に成功しました");
-				FileWriter filewriter = new FileWriter(newfile1);
-				filewriter.write("create file : " + cell + " : " + line);
-				filewriter.close();
-			} else {
-				System.out.println("ファイルの作成に失敗しました");
-			}
-		} catch (IOException o) {
-			System.out.println(o);
-		}
-		// ------------------------------------------------------------
 	}
 
 	public ResultTrace getResultTrace() {

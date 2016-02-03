@@ -3,9 +3,6 @@ package SequenceDiagram;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -92,8 +89,8 @@ public class Creater extends JFrame {
 				+ map1.get(declaringType).get(2));
 		nodes.add(tmp_node2);
 
-		fromConnector(nodes, nodes.indexOf(tmp_node1), nodes.indexOf(tmp_node2)); //
-		// toConnector(nodes, nodes.indexOf(tmp_node1), nodes.indexOf(tmp_node2)); //
+		fromConnector(nodes, nodes.indexOf(tmp_node1), nodes.indexOf(tmp_node2));
+		toConnector(nodes, nodes.indexOf(tmp_node1), nodes.indexOf(tmp_node2));
 
 		Node tmp_node3 = new Node();
 		tmp_node3.setName(declaringType.get(3) + ":"
@@ -103,29 +100,30 @@ public class Creater extends JFrame {
 		fromConnector(nodes, nodes.indexOf(tmp_node1), nodes.indexOf(tmp_node3));
 		// toConnector(nodes, nodes.indexOf(tmp_node1), nodes.indexOf(tmp_node3));
 
-		Node tmp_node4 = new Node();
-		tmp_node4.setName(declaringType.get(4) + ":"
-				+ map1.get(declaringType).get(4));
-		nodes.add(tmp_node4);
+//		Node tmp_node4 = new Node();
+//		tmp_node4.setName(declaringType.get(4) + ":"
+//				+ map1.get(declaringType).get(4));
+//		nodes.add(tmp_node4);
+//
+//		fromConnector(nodes, nodes.indexOf(tmp_node3), nodes.indexOf(tmp_node4));
+//		toConnector(nodes, nodes.indexOf(tmp_node3), nodes.indexOf(tmp_node4));
+//
+//		if (declaringType.get(4).equals(declaringType.get(5))) {
+//			fromConnector(nodes, nodes.indexOf(tmp_node3), nodes.indexOf(tmp_node4));
+//			toConnector(nodes, nodes.indexOf(tmp_node3), nodes.indexOf(tmp_node4));
+//		} else {
+//			Node tmp_node5 = new Node();
+//			tmp_node5.setName(declaringType.get(5) + ":" + map1.get(declaringType).get(5));
+//			nodes.add(tmp_node5);
+//
+//			fromConnector(nodes, nodes.indexOf(tmp_node4),
+//					nodes.indexOf(tmp_node5)); //
+//			toConnector(nodes, nodes.indexOf(tmp_node4),
+//					nodes.indexOf(tmp_node5)); //
+//		}
 
-		fromConnector(nodes, nodes.indexOf(tmp_node3), nodes.indexOf(tmp_node4));
-		toConnector(nodes, nodes.indexOf(tmp_node3), nodes.indexOf(tmp_node4));
-
-		if (declaringType.get(4).equals(declaringType.get(5))) {
-			fromConnector(nodes, nodes.indexOf(tmp_node3), nodes.indexOf(tmp_node4));
-			toConnector(nodes, nodes.indexOf(tmp_node3), nodes.indexOf(tmp_node4));
-		} else {
-			Node tmp_node5 = new Node();
-			tmp_node5.setName(declaringType.get(5) + ":" + map1.get(declaringType).get(5));
-			nodes.add(tmp_node5);
-
-			fromConnector(nodes, nodes.indexOf(tmp_node4),
-					nodes.indexOf(tmp_node5)); //
-			toConnector(nodes, nodes.indexOf(tmp_node4),
-					nodes.indexOf(tmp_node5)); //
-		}
 		toConnector(nodes, nodes.indexOf(tmp_node1), nodes.indexOf(tmp_node3));
-		toConnector(nodes, nodes.indexOf(tmp_node1), nodes.indexOf(tmp_node2));
+
 		toConnector(nodes, nodes.indexOf(tmp_node), nodes.indexOf(tmp_node1));
 
 		writeSeq writeseq = new writeSeq(connectors);
@@ -188,9 +186,9 @@ public class Creater extends JFrame {
 					List<Location> line = map3.get(methodName);
 					sequenceDiagram.giveColor(str, line, methodName);
 
-					keepData(declaringType, methodName, returnType,
-							argumentType, lineLocation, fieldName, valueName,
-							nodes, str, line);
+//					keepData(declaringType, methodName, returnType,
+//							argumentType, lineLocation, fieldName, valueName,
+//							nodes, str, line);
 				}
 			}
 			if (cell != null || right == true) {
@@ -200,21 +198,21 @@ public class Creater extends JFrame {
 				List<String> argument = map4.get(returnType);
 
 				createRectangle(ev, str);
-				File newfile = new File(
-						"C:\\Users\\cs12097\\Desktop\\eeeeee.txt");
-				try {
-					if (newfile.createNewFile()) {
-						System.out.println("ファイルの作成に成功しました");
-						FileWriter filewriter = new FileWriter(newfile);
-						filewriter.write("returntype : " + returntype + "  ");
-						filewriter.write("argumenttype : " + argument + "  ");
-						filewriter.close();
-					} else {
-						System.out.println("ファイルの作成に失敗しました");
-					}
-				} catch (IOException o) {
-					System.out.println(o);
-				}
+//				File newfile = new File(
+//						"C:\\Users\\cs12097\\Desktop\\eeeeee.txt");
+//				try {
+//					if (newfile.createNewFile()) {
+//						System.out.println("ファイルの作成に成功しました");
+//						FileWriter filewriter = new FileWriter(newfile);
+//						filewriter.write("returntype : " + returntype + "  ");
+//						filewriter.write("argumenttype : " + argument + "  ");
+//						filewriter.close();
+//					} else {
+//						System.out.println("ファイルの作成に失敗しました");
+//					}
+//				} catch (IOException o) {
+//					System.out.println(o);
+//				}
 			}
 		}
 
@@ -225,40 +223,36 @@ public class Creater extends JFrame {
 			popup.add(menuItem1);
 			popup.add(menuItem2);
 
-			if (str.equals("HelloWorld:main")) {
+			if (str.equals("Sample2:main")) {
 				retType = map2.get(methodName).get(0);
 				argType = map4.get(returnType).get(0);
 			}
-			if (str.equals("HelloWorld:<init>")) {
+			if (str.equals("Sample2:todoList")) {
 				retType = map2.get(methodName).get(1);
 				argType = map4.get(returnType).get(1);
 			}
-			if (str.equals("HelloWorld:hello")) {
+			if (str.equals("Sample2:Sport")) {
 				retType = map2.get(methodName).get(2);
 				argType = map4.get(returnType).get(2);
 			}
-			if (str.equals("HelloWorld:calclator")) {
+			if (str.equals("Sample2:month")) {
 				retType = map2.get(methodName).get(3);
 				argType = map4.get(returnType).get(3);
 			}
-			if (str.equals("HelloWorld:calclate")) {
-				retType = map2.get(methodName).get(4);
-				argType = map4.get(returnType).get(4);
-			}
-			File newfile = new File("C:\\Users\\cs12097\\Desktop\\ffffffff.txt");
-			try {
-				if (newfile.createNewFile()) {
-					System.out.println("ファイルの作成に成功しました");
-					FileWriter filewriter = new FileWriter(newfile);
-					filewriter.write("returntype : " + retType + "  ");
-					filewriter.write("argumenttype : " + argType + "  ");
-					filewriter.close();
-				} else {
-					System.out.println("ファイルの作成に失敗しました");
-				}
-			} catch (IOException o) {
-				System.out.println(o);
-			}
+//			File newfile = new File("C:\\Users\\cs12097\\Desktop\\ffffffff.txt");
+//			try {
+//				if (newfile.createNewFile()) {
+//					System.out.println("ファイルの作成に成功しました");
+//					FileWriter filewriter = new FileWriter(newfile);
+//					filewriter.write("returntype : " + retType + "  ");
+//					filewriter.write("argumenttype : " + argType + "  ");
+//					filewriter.close();
+//				} else {
+//					System.out.println("ファイルの作成に失敗しました");
+//				}
+//			} catch (IOException o) {
+//				System.out.println(o);
+//			}
 			// return this.retType;
 		}
 	}
@@ -316,36 +310,36 @@ public class Creater extends JFrame {
 	}
 
 	// ファイル書き込み
-	void keepData(List<String> declaringType, List<String> methodName,
-			List<String> returnType, List<String> argumentType,
-			List<Location> lineLocation, Field field, Value value,
-			List<Node> nodes, String str, List<Location> line) {
-		File newfile = new File("C:\\Users\\cs12097\\Desktop\\cccccc.txt");
-		try {
-			if (newfile.createNewFile()) {
-				System.out.println("ファイルの作成に成功しました");
-				FileWriter filewriter = new FileWriter(newfile);
-
-				filewriter.write(declaringType + " , ");
-				filewriter.write("\n");
-				filewriter.write(methodName + " , ");
-				filewriter.write("\n");
-				filewriter.write(returnType + " , ");
-				filewriter.write("\n");
-				filewriter.write(argumentType + " , ");
-				filewriter.write("\n");
-				filewriter.write(lineLocation + " ");
-				filewriter.write(valueName + ",");
-				filewriter.write(fieldName + ",");
-				filewriter.write(nodes + "");
-				filewriter.write(str + "");
-				filewriter.write(line + "");
-				filewriter.close();
-			} else {
-				System.out.println("ファイルの作成に失敗しました");
-			}
-		} catch (IOException o) {
-			System.out.println(o);
-		}
-	}
+//	void keepData(List<String> declaringType, List<String> methodName,
+//			List<String> returnType, List<String> argumentType,
+//			List<Location> lineLocation, Field field, Value value,
+//			List<Node> nodes, String str, List<Location> line) {
+//		File newfile = new File("C:\\Users\\cs12097\\Desktop\\cccccc.txt");
+//		try {
+//			if (newfile.createNewFile()) {
+//				System.out.println("ファイルの作成に成功しました");
+//				FileWriter filewriter = new FileWriter(newfile);
+//
+//				filewriter.write(declaringType + " , ");
+//				filewriter.write("\n");
+//				filewriter.write(methodName + " , ");
+//				filewriter.write("\n");
+//				filewriter.write(returnType + " , ");
+//				filewriter.write("\n");
+//				filewriter.write(argumentType + " , ");
+//				filewriter.write("\n");
+//				filewriter.write(lineLocation + " ");
+//				filewriter.write(valueName + ",");
+//				filewriter.write(fieldName + ",");
+//				filewriter.write(nodes + "");
+//				filewriter.write(str + "");
+//				filewriter.write(line + "");
+//				filewriter.close();
+//			} else {
+//				System.out.println("ファイルの作成に失敗しました");
+//			}
+//		} catch (IOException o) {
+//			System.out.println(o);
+//		}
+//	}
 }
